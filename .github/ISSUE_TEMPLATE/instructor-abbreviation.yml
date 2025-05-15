@@ -1,0 +1,48 @@
+name: 'Add/Update Instructor Abbreviation'
+description: 'Template to add or update an instructor abbreviation with relevant details.'
+title: 'Add/Update Instructor Abbreviation: [Abbreviation]'
+labels: ['🧑‍🏫 instructor', 'documentation']
+
+body:
+  - type: input
+    id: abbreviation
+    attributes:
+      label: 'Abbreviation'
+      description: "Enter the instructor's abbreviation (e.g., NNN)."
+      placeholder: 'NNN'
+    validations:
+      required: true
+
+  - type: input
+    id: full_name
+    attributes:
+      label: 'Full Name'
+      description: 'Enter the full name of the instructor (e.g., Nattee Niparnan).'
+      placeholder: 'Nattee Niparnan'
+    validations:
+      required: true
+
+  - type: input
+    id: faculty
+    attributes:
+      label: 'Faculty'
+      description: 'Enter the faculty of the instructor (e.g., Engineering).'
+      placeholder: 'Engineering'
+    validations:
+      required: true
+
+  - type: input
+    id: department
+    attributes:
+      label: 'Department'
+      description: 'Enter the department of the instructor (e.g., Computer Engineering).'
+      placeholder: 'Computer Engineering'
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: 'Additional Notes (optional)'
+      description: 'Provide any additional context or details about the instructor.'
+      placeholder: 'Any other relevant details.'
