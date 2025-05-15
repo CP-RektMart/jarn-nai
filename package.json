@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.2",
@@ -27,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "husky": "^9.1.7",
     "tailwindcss": "^4.1.7",
     "tw-animate-css": "^1.2.9",
     "typescript": "^5"
