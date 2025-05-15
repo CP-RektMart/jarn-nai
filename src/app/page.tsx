@@ -53,17 +53,13 @@ export default function InstructorSearch() {
       <Alert className="bg-[#FFF4E5] border-0 mb-4 rounded-sm">
         <TriangleAlert className="h-4 w-4" stroke="#ED6C02" />
         <AlertDescription>
-          Jarn-nai is a website created by students and is not supported by
-          servers from Reg Chula. It is merely a tool to help find instructors
-          more easily, but it is not an actual course registration system. You
-          can register for courses only through the official channel at
-          https://www2.reg.chula.ac.th/.
+          Jarn-nai is a website created by students and is not supported by servers from Reg Chula. It is merely a tool
+          to help find instructors more easily, but it is not an actual course registration system. You can register for
+          courses only through the official channel at https://www2.reg.chula.ac.th/.
         </AlertDescription>
       </Alert>
       <div className="text-left mb-4">
-        <h1 className="text-3xl font-bold mb-2 text-primary">
-          CU Instructor Search
-        </h1>
+        <h1 className="text-3xl font-bold mb-2 text-primary">CU Instructor Search</h1>
         {/* <p className="text-muted-foreground">Find instructor details by abbreviation, name, faculty, or department</p> */}
       </div>
 
@@ -86,12 +82,10 @@ export default function InstructorSearch() {
         {searched && results.length === 0 ? (
           <div className="text-center p-8 border rounded-lg bg-muted/50">
             <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
-            <p className="text-muted-foreground">
-              Try searching with a different term or category
-            </p>
+            <p className="text-muted-foreground">Try searching with a different term or category</p>
           </div>
         ) : (
-          results.map((instructor, i) => (
+          results.map((instructor) => (
             <InstructorCard
               key={instructor.abbreviation}
               abbreviation={instructor.abbreviation}
