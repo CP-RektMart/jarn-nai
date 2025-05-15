@@ -35,6 +35,7 @@
     "tw-animate-css": "^1.2.9",
     "typescript": "^5"
   },
+  "packageManager": "pnpm@10.11.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
