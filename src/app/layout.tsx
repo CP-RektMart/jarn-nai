@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist_Mono, Kanit } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 
 const kanit = Kanit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body className={`${kanit.className} ${geistMono.variable} antialiased min-h-dvh`}>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
