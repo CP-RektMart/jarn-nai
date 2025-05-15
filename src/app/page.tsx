@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { SearchIcon, BookIcon, BuildingIcon } from 'lucide-react';
 import { instructors } from '@/db/data';
+import { InstructorCard } from '@/components/instructor-card';
 
 export default function InstructorSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -53,9 +54,7 @@ export default function InstructorSearch() {
     <main className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-2">CU Instructor Search</h1>
-        <p className="text-muted-foreground">
-          Find instructor details by abbreviation, name, faculty, or department
-        </p>
+        <p className="text-muted-foreground">Find instructor details by abbreviation, name, faculty, or department</p>
       </div>
 
       <div className="relative mb-8">
@@ -75,42 +74,16 @@ export default function InstructorSearch() {
         {searched && results.length === 0 ? (
           <div className="text-center p-8 border rounded-lg bg-muted/50">
             <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
-            <p className="text-muted-foreground">
-              Try searching with a different term or category
-            </p>
+            <p className="text-muted-foreground">Try searching with a different term or category</p>
           </div>
         ) : (
           results.map((instructor) => (
-            <Card key={instructor.abbreviation} className="overflow-hidden">
-              <CardHeader className="bg-primary/5 py-3">
-                <div className="flex justify-between items-center">
-                  <CardTitle className="text-xl">
-                    {instructor.fullName}
-                  </CardTitle>
-                  <Badge variant="outline" className="font-mono">
-                    {instructor.abbreviation}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-2">
-                  <div className="flex items-center gap-2">
-                    <BuildingIcon className="h-4 w-4 text-muted-foreground" />
-                    <div className="flex gap-2">
-                      <span className="font-medium">Faculty:</span>
-                      <Badge variant="secondary">{instructor.faculty}</Badge>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <BookIcon className="h-4 w-4 text-muted-foreground" />
-                    <div className="flex gap-2">
-                      <span className="font-medium">Department:</span>
-                      <Badge variant="secondary">{instructor.department}</Badge>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <InstructorCard
+              abbreviation={instructor.abbreviation}
+              faculty={instructor.faculty}
+              thFullName={instructor.fullName}
+              department={instructor.faculty}
+            />
           ))
         )}
       </div>
