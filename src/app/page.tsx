@@ -8,14 +8,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function InstructorSearch() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState<typeof instructors>([]);
+  const [results, setResults] = useState<typeof instructors>(instructors);
   const [searched, setSearched] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
 
     if (!value.trim()) {
-      setResults([]);
+      setResults(instructors);
       setSearched(false);
       return;
     }
