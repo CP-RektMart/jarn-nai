@@ -77,8 +77,9 @@ export default function InstructorSearch() {
             <p className="text-muted-foreground">Try searching with a different term or category</p>
           </div>
         ) : (
-          results.map((instructor) => (
+          results.map((instructor, i) => (
             <InstructorCard
+              key={instructor.abbreviation}
               abbreviation={instructor.abbreviation}
               faculty={instructor.faculty}
               thFullName={instructor.fullName}
