@@ -10,25 +10,33 @@ interface InstructorCardProps {
   department?: string;
 }
 
-const InstructorCard = ({ abbreviation, enFullName, thFullName, faculty, department }: InstructorCardProps) => {
+const InstructorCard = ({
+  abbreviation,
+  enFullName,
+  thFullName,
+  faculty,
+  department,
+}: InstructorCardProps) => {
   return (
-    <Card key={abbreviation} className="overflow-hidden">
-      <CardHeader className="bg-primary/5 py-3">
+    <Card key={abbreviation} className="overflow-hidden rounded-sm shadow-none">
+      <CardHeader className="pt-6 pb-0 px-8">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl">{thFullName}</CardTitle>
+          <CardTitle className="text-2xl">{thFullName}</CardTitle>
           <Badge variant="outline" className="font-mono">
             {abbreviation}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent className="py-4 px-8">
         <div className="grid gap-2">
           {!enFullName && (
             <div className="flex items-center gap-2">
               <IdCard className="h-4 w-4 text-muted-foreground" />
               <div className="flex gap-2">
-                <span className="font-medium">Thai Full Name:</span>
-                <Badge variant="secondary">{thFullName}</Badge>
+                <span className="font-normal">Thai Full Name:</span>
+                <Badge variant="secondary" className="font-normal">
+                  {thFullName}
+                </Badge>
               </div>
             </div>
           )}
@@ -36,24 +44,40 @@ const InstructorCard = ({ abbreviation, enFullName, thFullName, faculty, departm
             <div className="flex items-center gap-2">
               <IdCard className="h-4 w-4 text-muted-foreground" />
               <div className="flex gap-2">
-                <span className="font-medium">English Full Name:</span>
-                <Badge variant="secondary">{enFullName}</Badge>
+                <span className="font-normal">English Full Name:</span>
+                <Badge variant="secondary" className="font-normal">
+                  {enFullName}
+                </Badge>
               </div>
             </div>
           )}
           <div className="flex items-center gap-2">
             <BuildingIcon className="h-4 w-4 text-muted-foreground" />
             <div className="flex gap-2">
-              <span className="font-medium">Faculty:</span>
-              <Badge variant="secondary">{faculty}</Badge>
+              <span className="font-normal">Faculty:</span>
+              <Badge
+                variant="outline"
+                className={(() => {
+                  switch (faculty.toLowerCase()) {
+                    case 'engineering':
+                      return 'font-normal border-[#941113] text-[#941113]';
+                    default:
+                      return 'font-normal';
+                  }
+                })()}
+              >
+                {faculty}
+              </Badge>
             </div>
           </div>
           {department && (
             <div className="flex items-center gap-2">
               <BookIcon className="h-4 w-4 text-muted-foreground" />
               <div className="flex gap-2">
-                <span className="font-medium">Department:</span>
-                <Badge variant="secondary">{department}</Badge>
+                <span className="font-normal">Department:</span>
+                <Badge variant="secondary" className="font-normal">
+                  {department}
+                </Badge>
               </div>
             </div>
           )}
