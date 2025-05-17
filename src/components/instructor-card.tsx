@@ -22,47 +22,34 @@ const InstructorCard = ({
       <CardHeader className="pt-6 pb-0 px-4 sm:px-8">
         <div className="flex flex-row justify-between items-start gap-2">
           <CardTitle className="text-xl sm:text-2xl break-words">
-            {thFullName}
+            {thFullName ?? enFullName}
           </CardTitle>
-          <Badge variant="outline" className="font-mono  py-1.5">
+          <Badge variant="outline" className="font-mono py-1.5">
             {abbreviation}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="py-4 px-4 sm:px-8">
-        <div className="grid gap-2">
-          {!enFullName && (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <div className="flex items-center gap-2">
-                <IdCard className="h-4 w-4 text-muted-foreground" />
-                <span className="font-normal">Thai Full Name:</span>
-              </div>
-              <Badge
-                variant="secondary"
-                className="font-normal inline-flex whitespace-nowrap w-fit"
-              >
-                {thFullName}
-              </Badge>
+
+      <CardContent className="py-4 px-4 sm:px-8 p-l lg:w-1/2">
+        <div className="grid gap-y-3 sm:grid-cols-3 sm:gap-x-4">
+          <div className="flex items-start gap-2 flex-col">
+            <div className="flex items-start gap-2">
+              <IdCard className="h-4 w-4 text-muted-foreground" />
+              <span className="font-normal whitespace-nowrap">
+                {thFullName ? 'Thai Full Name' : 'English Full Name'}
+              </span>
             </div>
-          )}
-          {!thFullName && (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <div className="flex items-center gap-2">
-                <IdCard className="h-4 w-4 text-muted-foreground" />
-                <span className="font-normal">English Full Name:</span>
-              </div>
-              <Badge
-                variant="secondary"
-                className="font-normal break-words w-fit"
-              >
-                {enFullName}
-              </Badge>
-            </div>
-          )}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <div className="flex items-center gap-2">
+            <Badge
+              variant="secondary"
+              className="font-normal break-words w-fit"
+            >
+              {thFullName ?? enFullName}
+            </Badge>
+          </div>
+          <div className="flex flex-col items-start gap-2">
+            <div className="flex items-start gap-2">
               <BuildingIcon className="h-4 w-4 text-muted-foreground" />
-              <span className="font-normal">Faculty:</span>
+              <span className="font-normal whitespace-nowrap">Faculty</span>
             </div>
             <Badge
               variant="outline"
@@ -79,10 +66,12 @@ const InstructorCard = ({
             </Badge>
           </div>
           {department && (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col items-start gap-2">
+              <div className="flex items-start gap-2">
                 <BookIcon className="h-4 w-4 text-muted-foreground" />
-                <span className="font-normal">Department:</span>
+                <span className="font-normal whitespace-nowrap">
+                  Department
+                </span>
               </div>
               <Badge
                 variant="secondary"
