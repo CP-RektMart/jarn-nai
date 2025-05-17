@@ -30,7 +30,7 @@ const InstructorCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className="py-4 px-4 sm:px-8 p-l lg:w-1/2">
+      <CardContent className="py-4 px-4 sm:px-8 p-l sm:w-2/3 lg:w-1/2">
         <div className="grid gap-y-3 sm:grid-cols-3 sm:gap-x-4">
           <div className="flex items-start gap-2 flex-col">
             <div className="flex items-start gap-2">
@@ -46,41 +46,43 @@ const InstructorCard = ({
               {thFullName ?? enFullName}
             </Badge>
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <div className="flex items-start gap-2">
-              <BuildingIcon className="h-4 w-4 text-muted-foreground" />
-              <span className="font-normal whitespace-nowrap">Faculty</span>
-            </div>
-            <Badge
-              variant="outline"
-              className={(() => {
-                switch (faculty.toLowerCase()) {
-                  case 'engineering':
-                    return 'font-normal border-[#941113] text-[#941113] break-words w-fit';
-                  default:
-                    return 'font-normal break-words w-fit';
-                }
-              })()}
-            >
-              {faculty}
-            </Badge>
-          </div>
-          {department && (
+          <div className="flex flex-row gap-2 sm:contents">
             <div className="flex flex-col items-start gap-2">
               <div className="flex items-start gap-2">
-                <BookIcon className="h-4 w-4 text-muted-foreground" />
-                <span className="font-normal whitespace-nowrap">
-                  Department
-                </span>
+                <BuildingIcon className="h-4 w-4 text-muted-foreground" />
+                <span className="font-normal whitespace-nowrap">Faculty</span>
               </div>
               <Badge
-                variant="secondary"
-                className="font-normal break-words w-fit"
+                variant="outline"
+                className={(() => {
+                  switch (faculty.toLowerCase()) {
+                    case 'engineering':
+                      return 'font-normal border-[#941113] text-[#941113] break-words w-fit';
+                    default:
+                      return 'font-normal break-words w-fit';
+                  }
+                })()}
               >
-                {department}
+                {faculty}
               </Badge>
             </div>
-          )}
+            {department && (
+              <div className="flex flex-col items-start gap-2">
+                <div className="flex items-start gap-2">
+                  <BookIcon className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-normal whitespace-nowrap">
+                    Department
+                  </span>
+                </div>
+                <Badge
+                  variant="secondary"
+                  className="font-normal break-words w-fit"
+                >
+                  {department}
+                </Badge>
+              </div>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
