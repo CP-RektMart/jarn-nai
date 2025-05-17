@@ -32,9 +32,9 @@ const InstructorCard = ({
 
       <CardContent className="py-4 px-4 sm:px-8 p-l sm:w-2/3 lg:w-1/2">
         <div className="grid gap-y-3 sm:grid-cols-3 sm:gap-x-4">
-          <div className="flex items-start gap-2 flex-col">
+          <div className="flex items-start gap-2 flex-col ">
             <div className="flex items-start gap-2">
-              <IdCard className="h-4 w-4 text-muted-foreground" />
+              <IdCard className="h-4 w-4 text-muted-foreground mt-1" />
               <span className="font-normal whitespace-nowrap">
                 {thFullName ? 'Thai Full Name' : 'English Full Name'}
               </span>
@@ -49,7 +49,7 @@ const InstructorCard = ({
           <div className="flex flex-row gap-2 sm:contents">
             <div className="flex flex-col items-start gap-2">
               <div className="flex items-start gap-2">
-                <BuildingIcon className="h-4 w-4 text-muted-foreground" />
+                <BuildingIcon className="h-4 w-4 text-muted-foreground mt-1" />
                 <span className="font-normal whitespace-nowrap">Faculty</span>
               </div>
               <Badge
@@ -69,7 +69,7 @@ const InstructorCard = ({
             {department && (
               <div className="flex flex-col items-start gap-2">
                 <div className="flex items-start gap-2">
-                  <BookIcon className="h-4 w-4 text-muted-foreground" />
+                  <BookIcon className="h-4 w-4 text-muted-foreground mt-1" />
                   <span className="font-normal whitespace-nowrap">
                     Department
                   </span>
