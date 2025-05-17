@@ -53,36 +53,43 @@ export default function InstructorSearch() {
       <Alert className="bg-[#FFF4E5] border-0 mb-4 rounded-sm">
         <TriangleAlert className="h-4 w-4" stroke="#ED6C02" />
         <AlertDescription>
-          Jarn-nai is a website created by students and is not supported by servers from Reg Chula. It is merely a tool
-          to help find instructors more easily, but it is not an actual course registration system. You can register for
-          courses only through the official channel at https://www2.reg.chula.ac.th/.
+          Jarn-nai is a website created by students and is not supported by
+          servers from Reg Chula. It is merely a tool to help find instructors
+          more easily, but it is not an actual course registration system. You
+          can register for courses only through the official channel at
+          https://www2.reg.chula.ac.th/.
         </AlertDescription>
       </Alert>
       <div className="text-left mb-4">
-        <h1 className="text-3xl font-bold mb-2 text-primary">CU Instructor Search</h1>
+        <h1 className="text-3xl font-bold mb-2 text-primary">
+          CU Instructor Search
+        </h1>
         {/* <p className="text-muted-foreground">Find instructor details by abbreviation, name, faculty, or department</p> */}
       </div>
 
       <div className="border-1 border-white mb-2 rounded-[8px] has-[input:focus]:border-[#2A2D48] transition duration-100">
         <div className="relative border-1 border-[#E0E0E0] has-[input:focus]:border-1 has-[input:focus]:border-[#2A2D48] hover:border-[#2A2D48] transition duration-100 rounded-sm box-border">
           <input
-            placeholder="Search by abbreviation, name, faculty or department..."
-            className="rounded-sm py-2 px-3.5 border-0 w-full focus:ring-0 focus:ring-offset-0 focus:outline-none"
+            placeholder="Search for instructors..."
+            className="rounded-sm py-2 pl-3.5 pr-10 border-0 w-full text-md focus:ring-0 focus:ring-offset-0 focus:outline-none"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <SearchIcon className="absolute right-2 top-2 h-5 w-5 text-muted-foreground" />
+          <SearchIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         </div>
       </div>
-      <p className="text-xs text-muted-foreground mb-4">
-        Search across all fields - abbreviation matches are shown first
-      </p>
+      <ul className="list-disc ml-4 text-xs text-muted-foreground mb-4">
+        <li>Search by abbreviation, name, faculty or department</li>
+        <li>Search across all fields - abbreviation matches are shown first</li>
+      </ul>
 
       <div className="space-y-4">
         {searched && results.length === 0 ? (
           <div className="text-center p-8 border rounded-lg bg-muted/50">
             <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
-            <p className="text-muted-foreground">Try searching with a different term or category</p>
+            <p className="text-muted-foreground">
+              Try searching with a different term or category
+            </p>
           </div>
         ) : (
           results.map((instructor) => (
