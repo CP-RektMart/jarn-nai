@@ -215,4 +215,46 @@ export const instructors = [
     faculty: 'Engineering',
     department: 'Computer Engineering',
   },
+  {
+    abbreviation: 'JCR',
+    fullName: 'จิรวัฒน์ ชีวรุ่งโรจน์',
+    faculty: 'Engineering',
+    department: 'Petroleum',
+  },
+  {
+    abbreviation: 'KJK',
+    fullName: 'กิตติพงค์ จงกิตตินฤกร',
+    faculty: 'Engineering',
+    department: 'Petroleum',
+  },
+  {
+    abbreviation: 'KMI',
+    fullName: 'เกรียงไกร มณีอินทร์',
+    faculty: 'Engineering',
+    department: 'Petroleum',
+  },
+  {
+    abbreviation: 'FSC',
+    fullName: 'ฟ้าลั่น ศรีสุริยชัย',
+    faculty: 'Engineering',
+    department: 'Petroleum',
+  },
+  {
+    abbreviation: 'TCR',
+    fullName: 'ทศพล ไชยอนันต์สุจริต',
+    faculty: 'Engineering',
+    department: 'Petroleum',
+  },
+  {
+    abbreviation: 'CTT',
+    fullName: 'จิตติน แตงเที่ยง',
+    faculty: 'Engineering',
+    department: 'Mechanical Engineering',
+  },
+  {
+    abbreviation: 'PSG',
+    fullName: 'ไพโรจน์ สิงหถนัดกิจ',
+    faculty: 'Engineering',
+    department: 'Mechanical Engineering',
+  },
 ];
