@@ -263,4 +263,10 @@ export const instructors = [
     faculty: 'Engineering',
     department: 'Mechanical Engineering',
   },
+  {
+    abbreviation: 'TST',
+    department: 'Test Test',
+    faculty: 'Test',
+    fullName: 'Test Tst',
+  },
 ];
