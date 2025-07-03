@@ -11,7 +11,7 @@ jobs:
       - name: Validate issue title
         run: |
           TITLE="${{ github.event.issue.title }}"
-          if ! echo "$TITLE" | grep -Eq '^(Add|Update) Instructor Abbreviation:'; then
+          if ! echo "$TITLE" | grep -q 'Instructor Abbreviation:'; then
             echo "::error::Issue title must start with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
             exit 1
           fi
@@ -33,7 +33,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10
-          node-version: 22.14.0
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
