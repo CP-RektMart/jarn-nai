@@ -32,7 +32,9 @@
     "eslint-config-next": "15.3.2",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
+    "prettierrc": "0.0.0-5",
     "tailwindcss": "^4.1.7",
+    "tsx": "^4.20.3",
     "tw-animate-css": "^1.2.9",
     "typescript": "^5"
   },
