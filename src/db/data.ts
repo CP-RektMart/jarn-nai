@@ -216,6 +216,12 @@ export const instructors = [
     department: 'Computer Engineering',
   },
   {
+    abbreviation: 'BKK',
+    fullName: 'บุญเสริม กิจศิริกุล',
+    faculty: 'Engineering',
+    department: 'Computer Engineering',
+  },
+  {
     abbreviation: 'JCR',
     fullName: 'จิรวัฒน์ ชีวรุ่งโรจน์',
     faculty: 'Engineering',
