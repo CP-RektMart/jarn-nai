@@ -40,6 +40,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Set git to use HTTPS instead of SSH for github.com
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+
       - name: Install dependencies
         run: pnpm install
 
