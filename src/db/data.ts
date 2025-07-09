@@ -263,4 +263,10 @@ export const instructors = [
     faculty: 'Engineering',
     department: 'Mechanical Engineering',
   },
+  {
+    abbreviation: 'TNP',
+    department: 'Testing Engineering',
+    faculty: 'Engineering',
+    fullName: 'Thanapon Johdee',
+  },
 ];
