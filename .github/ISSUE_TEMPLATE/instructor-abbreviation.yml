@@ -2,6 +2,9 @@ name: 'Add/Update Instructor Abbreviation'
 description: 'Template to add or update an instructor abbreviation with relevant details.'
 title: 'Add/Update Instructor Abbreviation: [Abbreviation]'
 labels: ['🧑‍🏫 instructor', 'documentation']
+assignees:
+  - yokeTH
+  - Thiraput01
 
 body:
   - type: input

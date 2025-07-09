@@ -1,0 +1,46 @@
+name: Replace Abbreviation in Issue Title
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  update-title:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Replace [Abbreviation] in Title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const issueNumber = issue.number;
+            const title = issue.title;
+            const body = issue.body;
+
+            if (!title.includes("[Abbreviation]")) {
+              console.log("No [Abbreviation] placeholder in title.");
+              return;
+            }
+
+            const match = body.match(/### Abbreviation\s+\n(.+?)\n/);
+            if (!match) {
+              console.log("Abbreviation not found in body.");
+              return;
+            }
+
+            const abbreviation = match[1].trim();
+            const newTitle = title.replace("[Abbreviation]", abbreviation);
+
+            if (newTitle !== title) {
+              await github.rest.issues.update({
+                ...context.repo,
+                issue_number: issueNumber,
+                title: newTitle
+              });
+              console.log(`Updated title to: ${newTitle}`);
+            } else {
+              console.log("No change needed in title.");
+            }
