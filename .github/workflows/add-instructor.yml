@@ -1,12 +1,18 @@
 on:
   issues:
     types: [opened]
+  pull_request:
+    types: [closed]
+
 permissions:
   contents: write
 
 jobs:
   pr:
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'issues' ||
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/'))
     steps:
       - name: Validate issue title
         run: |
@@ -22,6 +28,31 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Check previous PR status for this issue
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          BRANCH_NAME="instructor-abbreviation/${ISSUE_NUMBER}"
+
+          PR_INFO=$(gh pr list --state all --json number,title,state,headRefName \
+            --jq ".[] | select(.headRefName == \"$BRANCH_NAME\")")
+
+          if [ -n "$PR_INFO" ]; then
+            PR_STATE=$(echo "$PR_INFO" | jq -r '.state')
+            PR_NUMBER=$(echo "$PR_INFO" | jq -r '.number')
+
+            if [ "$PR_STATE" == "OPEN" ]; then
+              echo "::error::A PR (#$PR_NUMBER) for issue #$ISSUE_NUMBER already exists and is still OPEN."
+              exit 0
+            else
+              echo "Previous PR #$PR_NUMBER is $PR_STATE. Proceeding with new update."
+            fi
+          else
+            echo "No existing PR found for branch $BRANCH_NAME. Proceeding."
+          fi
+
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
