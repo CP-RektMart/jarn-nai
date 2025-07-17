@@ -275,4 +275,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'Thanarat Chalidabhongse',
   },
+  {
+    abbreviation: 'CNP',
+    department: 'Computer Engineering',
+    faculty: 'Engineering',
+    fullName: 'Chate Patanothai',
+  },
 ];
