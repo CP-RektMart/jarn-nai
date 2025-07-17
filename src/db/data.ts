@@ -269,4 +269,10 @@ export const instructors = [
     faculty: 'Commerce And Accountancy',
     fullName: 'Narongrid Asavaroungpipop',
   },
+  {
+    abbreviation: 'TCB',
+    department: 'Computer Engineering',
+    faculty: 'Engineering',
+    fullName: 'Thanarat Chalidabhongse',
+  },
 ];
