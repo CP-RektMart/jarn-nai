@@ -263,4 +263,10 @@ export const instructors = [
     faculty: 'Engineering',
     department: 'Mechanical Engineering',
   },
+  {
+    abbreviation: 'NAP',
+    department: 'Statistics',
+    faculty: 'Commerce And Accountancy',
+    fullName: 'Narongrid Asavaroungpipop',
+  },
 ];
