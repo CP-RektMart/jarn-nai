@@ -29,28 +29,20 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Check previous PR status for this issue
+      - name: Check for any open instructor-abbreviation PRs
         run: |
-          ISSUE_NUMBER=${{ github.event.issue.number }}
-          BRANCH_NAME="instructor-abbreviation/${ISSUE_NUMBER}"
+          echo "Checking for open PRs with branch name starting with instructor-abbreviation/"
 
-          PR_INFO=$(gh pr list --state all --json number,title,state,headRefName \
-            --jq ".[] | select(.headRefName == \"$BRANCH_NAME\")")
+          OPEN_PR=$(gh pr list --state open --json number,headRefName,title \
+            --jq '.[] | select(.headRefName | startswith("instructor-abbreviation/"))')
 
-          if [ -n "$PR_INFO" ]; then
-            PR_STATE=$(echo "$PR_INFO" | jq -r '.state')
-            PR_NUMBER=$(echo "$PR_INFO" | jq -r '.number')
-
-            if [ "$PR_STATE" == "OPEN" ]; then
-              echo "::error::A PR (#$PR_NUMBER) for issue #$ISSUE_NUMBER already exists and is still OPEN."
-              exit 0
-            else
-              echo "Previous PR #$PR_NUMBER is $PR_STATE. Proceeding with new update."
-            fi
-          else
-            echo "No existing PR found for branch $BRANCH_NAME. Proceeding."
+          if [ -n "$OPEN_PR" ]; then
+            echo "$OPEN_PR" | jq -c '.'
+            echo "::error::Another instructor-abbreviation PR is still open. Please wait until it is merged or closed."
+            exit 0
           fi
 
+          echo "No conflicting open PRs found. Proceeding..."
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
