@@ -1,12 +1,18 @@
 on:
   issues:
     types: [opened]
+  pull_request:
+    types: [closed]
+
 permissions:
   contents: write
 
 jobs:
   pr:
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'issues' ||
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/'))
     steps:
       - name: Validate issue title
         run: |
@@ -22,6 +28,23 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Check for any open instructor-abbreviation PRs
+        run: |
+          echo "Checking for open PRs with branch name starting with instructor-abbreviation/"
+
+          OPEN_PR=$(gh pr list --state open --json number,headRefName,title \
+            --jq '.[] | select(.headRefName | startswith("instructor-abbreviation/"))')
+
+          if [ -n "$OPEN_PR" ]; then
+            echo "$OPEN_PR" | jq -c '.'
+            echo "::error::Another instructor-abbreviation PR is still open. Please wait until it is merged or closed."
+            exit 0
+          fi
+
+          echo "No conflicting open PRs found. Proceeding..."
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
