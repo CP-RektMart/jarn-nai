@@ -47,7 +47,7 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           lfs: true
           token: ${{ steps.generate-token.outputs.token }}
