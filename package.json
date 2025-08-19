@@ -33,7 +33,7 @@
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "tw-animate-css": "^1.3.5",
     "typescript": "^5.8.3"
   },
