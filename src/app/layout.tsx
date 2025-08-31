@@ -26,7 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${kanit.className} ${geistMono.variable} antialiased min-h-dvh`}>
+      <body
+        className={`${kanit.className} ${geistMono.variable} antialiased min-h-dvh`}
+      >
+        <link rel="icon" type="image/svg+xml" href="/fav.svg" />
         <Navbar />
         {children}
         <Footer />
