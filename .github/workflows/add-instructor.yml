@@ -1,8 +1,6 @@
 on:
   issues:
     types: [opened]
-  pull_request:
-    types: [closed]
   workflow_dispatch:
 
 permissions:
@@ -12,19 +10,12 @@ jobs:
   pr:
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'issues' ||
-      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/')) ||
-      github.event_name == 'workflow_dispatch'
+      github.event_name == 'issues' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Validate issue title
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "Skipping issue title validation for workflow_dispatch."
-            exit 0
-          fi
-
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "Skipping issue title validation for pull_request closed event."
             exit 0
           fi
 
@@ -82,7 +73,7 @@ jobs:
         run: pnpm install
 
       - name: Get Issue Body for Workflow Dispatch
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' }}
+        if: github.event_name == 'workflow_dispatch'
         id: pick-issue
         run: |
           set -euo pipefail
@@ -116,7 +107,7 @@ jobs:
       - name: Update
         run: npx tsx scripts/update_instructor.ts
         env:
-          BODY: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request')  && env.BODY || github.event.issue.body }}
+          BODY: ${{ github.event_name == 'workflow_dispatch'  && env.BODY || github.event.issue.body }}
 
       - name: Format
         run: npx prettier --write src/db/data.ts
@@ -131,13 +122,13 @@ jobs:
           title: >-
             Automated ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
           body: |
-            This PR was automatically generated in response to issue #${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request') && env.ISSUE_NUMBER || github.event.issue.number }}.
+            This PR was automatically generated in response to issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}.
 
             **Summary of changes:**
             - ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
 
             Please review the changes to `src/db/data.ts` and ensure the instructor abbreviation information is correct.
-          branch: instructor-abbreviation/${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request') && env.ISSUE_NUMBER || github.event.issue.number }}
+          branch: instructor-abbreviation/${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}
           delete-branch: true
           add-paths: |
             src/db/data.ts
