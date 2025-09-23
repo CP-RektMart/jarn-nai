@@ -299,4 +299,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'ปริญเอก ร่มไตรรัตน์',
   },
+  {
+    abbreviation: 'CTT',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'จิตติน แตงเที่ยง',
+  },
 ];
