@@ -281,4 +281,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'Chate Patanothai',
   },
+  {
+    abbreviation: 'WWS',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'วิทยา วัณณสุโภประสิทธิ์',
+  },
 ];
