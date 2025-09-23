@@ -7,7 +7,7 @@ jobs:
   close_issue:
     if: >
       github.event.pull_request.merged == true &&
-      github.event.pull_request.title =~ /^Automated #(\d+)$/
+      startsWith(github.event.pull_request.title, 'Automated #')
     runs-on: ubuntu-latest
     steps:
       - name: Extract issue number from PR title
