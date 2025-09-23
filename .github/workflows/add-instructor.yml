@@ -76,10 +76,33 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Get Issue Body for Workflow Dispatch
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        id: pick-issue
+        run: |
+          echo "Getting issue body for workflow_dispatch..."
+          ISSUE_JSON=$(gh issue list --state open --json number,title,body \
+            --jq '.[] | select(.title | test("^(Add|Update) Instructor Abbreviation:"))')
+          if [ -z "$ISSUE_JSON" ]; then
+            echo "::error::No open issue found with title starting with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
+            exit 1
+          fi
+          ISSUE_BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
+          ISSUE_NUMBER=$(echo "$ISSUE_JSON" | jq -r '.number')
+          ISSUE_TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
+          echo "BODY<<EOF" >> $GITHUB_ENV
+          echo "$ISSUE_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=$ISSUE_NUMBER" >> $GITHUB_ENV
+          echo "ISSUE_TITLE=$ISSUE_TITLE" >> $GITHUB_ENV
+
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
       - name: Update
         run: npx tsx scripts/update_instructor.ts
         env:
-          BODY: '${{ github.event.issue.body }}'
+          BODY: ${{ github.event_name == 'workflow_dispatch' && env.BODY || github.event.issue.body }}
 
       - name: Format
         run: npx prettier --write src/db/data.ts
@@ -88,19 +111,19 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          commit-message: 'Add or Update Instructor Abbreviation from issue #${{ github.event.issue.number }}'
+          commit-message: >-
+            Add or Update Instructor Abbreviation from issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}
           committer: Jarn-Nai[bot] <1505243+Jarn-Nai[bot]@users.noreply.github.com>
-          title: 'Automated ${{ github.event.issue.title }}'
+          title: >-
+            Automated ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
           body: |
-            This PR was automatically generated in response to issue #${{ github.event.issue.number }}.
+            This PR was automatically generated in response to issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}.
 
             **Summary of changes:**
-            - ${{
-                github.event.issue.title
-              }}
+            - ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
 
             Please review the changes to `src/db/data.ts` and ensure the instructor abbreviation information is correct.
-          branch: instructor-abbreviation/${{ github.event.issue.number }}
+          branch: instructor-abbreviation/${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}
           delete-branch: true
           add-paths: |
             src/db/data.ts
