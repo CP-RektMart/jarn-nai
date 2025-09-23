@@ -300,9 +300,15 @@ export const instructors = [
     fullName: 'ปริญเอก ร่มไตรรัตน์',
   },
   {
+    abbreviation: 'CTT',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'จิตติน แตงเที่ยง',
+  },
+  {
     abbreviation: 'BLN',
     department: 'Mechanical Engineering',
     faculty: 'Engineering',
     fullName: 'บุญชัย เลิศนุวัฒน์',
-  },
+  }
 ];
