@@ -317,4 +317,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'นันทชัย กานตานันทะ',
   },
+  {
+    abbreviation: 'AJW',
+    department: 'Industrial Engineering',
+    faculty: 'Engineering',
+    fullName: 'อริศรา เจียมสงวนวงศ์',
+  },
 ];
