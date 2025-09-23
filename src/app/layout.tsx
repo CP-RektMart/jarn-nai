@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${kanit.className} ${geistMono.variable} min-h-dvh antialiased`}
+        className={`${kanit.className} ${geistMono.variable} flex min-h-dvh flex-col antialiased`}
       >
         <link
           rel='icon'
@@ -38,7 +38,7 @@ export default function RootLayout({
           href='/fav.svg'
         />
         <Navbar />
-        {children}
+        <main className='flex-1'>{children}</main>
         <Footer />
       </body>
       <GoogleAnalytics gaId='G-CWCBJE4H99' />
