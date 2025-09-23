@@ -82,7 +82,7 @@ jobs:
         run: |
           echo "Getting issue body for workflow_dispatch..."
           ISSUE_JSON=$(gh issue list --state open --json number,title,body \
-            --jq '.[] | select(.title | test("^(Add|Update) Instructor Abbreviation:"))')
+            --jq '.[] | select(.title | test("^(Add/Update|Add|Update) Instructor Abbreviation:"))')
           if [ -z "$ISSUE_JSON" ]; then
             echo "::error::No open issue found with title starting with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
             exit 1
