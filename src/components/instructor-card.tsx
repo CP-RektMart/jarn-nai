@@ -1,13 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookIcon, BuildingIcon, IdCard } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { BookIcon, BuildingIcon, IdCard } from 'lucide-react'
+
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface InstructorCardProps {
-  abbreviation: string;
-  enFullName?: string;
-  thFullName?: string;
-  faculty: string;
-  department?: string;
+  abbreviation: string
+  enFullName?: string
+  thFullName?: string
+  faculty: string
+  department?: string
 }
 
 const InstructorCard = ({
@@ -18,47 +19,53 @@ const InstructorCard = ({
   department,
 }: InstructorCardProps) => {
   return (
-    <Card key={abbreviation} className="overflow-hidden rounded-sm shadow-none">
-      <CardHeader className="pt-6 pb-0 px-4">
-        <div className="flex flex-row justify-between items-start gap-2">
-          <CardTitle className="text-xl break-words">
+    <Card
+      key={abbreviation}
+      className='overflow-hidden rounded-sm shadow-none'
+    >
+      <CardHeader className='px-4 pt-6 pb-0'>
+        <div className='flex flex-row items-start justify-between gap-2'>
+          <CardTitle className='text-xl break-words'>
             {thFullName ?? enFullName}
           </CardTitle>
-          <Badge variant="outline" className="font-mono py-1.5">
+          <Badge
+            variant='outline'
+            className='py-1.5 font-mono'
+          >
             {abbreviation}
           </Badge>
         </div>
       </CardHeader>
 
-      <CardContent className="py-4 px-4">
-        <div className="flex flex-wrap gap-4">
-          <div className="flex items-start gap-2 flex-col ">
-            <div className="flex items-start gap-2">
-              <IdCard className="h-4 w-4 text-muted-foreground mt-1" />
-              <span className="font-normal whitespace-nowrap">
+      <CardContent className='px-4 py-4'>
+        <div className='flex flex-wrap gap-4'>
+          <div className='flex flex-col items-start gap-2'>
+            <div className='flex items-start gap-2'>
+              <IdCard className='text-muted-foreground mt-1 h-4 w-4' />
+              <span className='font-normal whitespace-nowrap'>
                 {thFullName ? 'Thai Full Name' : 'English Full Name'}
               </span>
             </div>
             <Badge
-              variant="secondary"
-              className="font-normal break-words w-fit"
+              variant='secondary'
+              className='w-fit font-normal break-words'
             >
               {thFullName ?? enFullName}
             </Badge>
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <div className="flex items-start gap-2">
-              <BuildingIcon className="h-4 w-4 text-muted-foreground mt-1" />
-              <span className="font-normal whitespace-nowrap">Faculty</span>
+          <div className='flex flex-col items-start gap-2'>
+            <div className='flex items-start gap-2'>
+              <BuildingIcon className='text-muted-foreground mt-1 h-4 w-4' />
+              <span className='font-normal whitespace-nowrap'>Faculty</span>
             </div>
             <Badge
-              variant="outline"
+              variant='outline'
               className={(() => {
                 switch (faculty.toLowerCase()) {
                   case 'engineering':
-                    return 'font-normal border-[#941113] text-[#941113] break-words w-fit';
+                    return 'w-fit border-[#941113] font-normal break-words text-[#941113]'
                   default:
-                    return 'font-normal break-words w-fit';
+                    return 'w-fit font-normal break-words'
                 }
               })()}
             >
@@ -66,16 +73,16 @@ const InstructorCard = ({
             </Badge>
           </div>
           {department && (
-            <div className="flex flex-col items-start gap-2">
-              <div className="flex items-start gap-2">
-                <BookIcon className="h-4 w-4 text-muted-foreground mt-1" />
-                <span className="font-normal whitespace-nowrap">
+            <div className='flex flex-col items-start gap-2'>
+              <div className='flex items-start gap-2'>
+                <BookIcon className='text-muted-foreground mt-1 h-4 w-4' />
+                <span className='font-normal whitespace-nowrap'>
                   Department
                 </span>
               </div>
               <Badge
-                variant="secondary"
-                className="font-normal break-words w-fit"
+                variant='secondary'
+                className='w-fit font-normal break-words'
               >
                 {department}
               </Badge>
@@ -84,7 +91,7 @@ const InstructorCard = ({
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export { InstructorCard };
+export { InstructorCard }
