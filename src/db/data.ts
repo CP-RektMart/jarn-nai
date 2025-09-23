@@ -310,5 +310,5 @@ export const instructors = [
     department: 'Mechanical Engineering',
     faculty: 'Engineering',
     fullName: 'บุญชัย เลิศนุวัฒน์',
-  }
+  },
 ];
