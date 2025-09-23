@@ -12,9 +12,11 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.3",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "google": "link:@next/third-parties/google",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
     "react": "^19.1.0",
