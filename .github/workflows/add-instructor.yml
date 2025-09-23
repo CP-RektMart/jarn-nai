@@ -85,22 +85,31 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         id: pick-issue
         run: |
+          set -euo pipefail
+
           echo "Getting issue body for workflow_dispatch..."
-          ISSUE_JSON=$(gh issue list --state open --json number,title,body \
-            --jq '.[] | select(.title | test("^(Add/Update|Add|Update) Instructor Abbreviation:"))')
-          if [ -z "$ISSUE_JSON" ]; then
+
+          ISSUE_JSON=$(gh issue list --state open --json number,title,body,createdAt \
+            --jq '[.[] | select(.title | test("^(Add|Update) Instructor Abbreviation:"))] | sort_by(.createdAt) | reverse | first')
+
+          if [ -z "${ISSUE_JSON}" ] || [ "${ISSUE_JSON}" = "null" ]; then
             echo "::error::No open issue found with title starting with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
             exit 1
           fi
-          ISSUE_BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
-          ISSUE_NUMBER=$(echo "$ISSUE_JSON" | jq -r '.number')
-          ISSUE_TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
-          echo "BODY<<EOF" >> $GITHUB_ENV
-          echo "$ISSUE_BODY" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "ISSUE_NUMBER=$ISSUE_NUMBER" >> $GITHUB_ENV
-          echo "ISSUE_TITLE=$ISSUE_TITLE" >> $GITHUB_ENV
 
+          ISSUE_NUMBER=$(jq -r '.number' <<< "$ISSUE_JSON")
+          ISSUE_TITLE=$(jq -r '.title'  <<< "$ISSUE_JSON")
+          ISSUE_BODY=$(jq -r '.body'   <<< "$ISSUE_JSON")
+
+          DELIM="__ISSUE_BODY_$(date +%s%N)__"
+
+          {
+            echo "BODY<<$DELIM"
+            printf '%s\n' "$ISSUE_BODY"
+            echo "$DELIM"
+            echo "ISSUE_NUMBER=$ISSUE_NUMBER"
+            echo "ISSUE_TITLE=$ISSUE_TITLE"
+          } >> "$GITHUB_ENV"
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
