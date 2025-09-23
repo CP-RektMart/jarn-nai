@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   pr:
@@ -13,11 +14,13 @@ jobs:
     if: |
       github.event_name == 'issues' ||
       (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/'))
+
     steps:
       - name: Validate issue title
+        if: github.event_name == 'issues'
         run: |
           TITLE="${{ github.event.issue.title }}"
-          if ! echo "$TITLE" | grep -q 'Instructor Abbreviation:'; then
+          if ! echo "$TITLE" | grep -Eq '^(Add|Update) Instructor Abbreviation:'; then
             echo "::error::Issue title must start with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
             exit 1
           fi
@@ -32,16 +35,15 @@ jobs:
       - name: Check for any open instructor-abbreviation PRs
         run: |
           echo "Checking for open PRs with branch name starting with instructor-abbreviation/"
-
           OPEN_PR=$(gh pr list --state open --json number,headRefName,title \
-            --jq '.[] | select(.headRefName | startswith("instructor-abbreviation/"))')
-
+            --jq '.[] | select(.headRefName | startswith("instructor-abbreviation/"))' \
+            --repo "$GITHUB_REPOSITORY")
           if [ -n "$OPEN_PR" ]; then
             echo "$OPEN_PR" | jq -c '.'
             echo "::error::Another instructor-abbreviation PR is still open. Please wait until it is merged or closed."
+            # non-failing exit to stop the job gracefully
             exit 0
           fi
-
           echo "No conflicting open PRs found. Proceeding..."
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
@@ -86,12 +88,8 @@ jobs:
           title: 'Automated ${{ github.event.issue.title }}'
           body: |
             This PR was automatically generated in response to issue #${{ github.event.issue.number }}.
-
             **Summary of changes:**
-            - ${{
-                github.event.issue.title
-              }}
-
+            - ${{ github.event.issue.title }}
             Please review the changes to `src/db/data.ts` and ensure the instructor abbreviation information is correct.
           branch: instructor-abbreviation/${{ github.event.issue.number }}
           delete-branch: true
