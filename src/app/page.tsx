@@ -1,27 +1,63 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useDeferredValue, useState, useEffect } from 'react';
 import { SearchIcon, TriangleAlert } from 'lucide-react';
 import { instructors } from '@/db/data';
 import { InstructorCard } from '@/components/instructor-card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
+type Instructor = (typeof instructors)[number];
+
+interface InstructorSearchResultProps {
+  searched: boolean;
+  results: Instructor[];
+}
+
+const InstructorSearchResult = memo(function InstructorSearchResult({
+  searched,
+  results,
+}: InstructorSearchResultProps) {
+  if (searched && results.length === 0) {
+    return (
+      <div className="text-center p-8 border rounded-lg bg-muted/50">
+        <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
+        <p className="text-muted-foreground">
+          Try searching with a different term or category
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {results.map((instructor) => (
+        <InstructorCard
+          key={instructor.abbreviation}
+          abbreviation={instructor.abbreviation}
+          faculty={instructor.faculty}
+          thFullName={instructor.fullName}
+          department={instructor.department}
+        />
+      ))}
+    </>
+  );
+});
+
 export default function InstructorSearch() {
   const [searchTerm, setSearchTerm] = useState('');
+  const deferredSearchTerm = useDeferredValue(searchTerm);
   const [results, setResults] = useState<typeof instructors>(instructors);
   const [searched, setSearched] = useState(false);
 
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-
-    if (!value.trim()) {
+  useEffect(() => {
+    if (!deferredSearchTerm.trim()) {
       setResults(instructors);
       setSearched(false);
       return;
     }
 
     setSearched(true);
-    const searchValue = value.toLowerCase();
+    const searchValue = deferredSearchTerm.toLowerCase();
 
     // First find all matching instructors
     const matchingInstructors = instructors.filter((instructor) => {
@@ -47,6 +83,10 @@ export default function InstructorSearch() {
     });
 
     setResults(sortedResults);
+  }, [deferredSearchTerm]);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
   };
 
   return (
@@ -85,24 +125,7 @@ export default function InstructorSearch() {
       </ul>
 
       <div className="space-y-4">
-        {searched && results.length === 0 ? (
-          <div className="text-center p-8 border rounded-lg bg-muted/50">
-            <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
-            <p className="text-muted-foreground">
-              Try searching with a different term or category
-            </p>
-          </div>
-        ) : (
-          results.map((instructor) => (
-            <InstructorCard
-              key={instructor.abbreviation}
-              abbreviation={instructor.abbreviation}
-              faculty={instructor.faculty}
-              thFullName={instructor.fullName}
-              department={instructor.department}
-            />
-          ))
-        )}
+        <InstructorSearchResult searched={searched} results={results} />
       </div>
     </main>
   );
