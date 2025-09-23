@@ -11,10 +11,13 @@ updates:
     labels:
       - '🤖 Dependencies'
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
     assignees:
       - 'yokeTH'
       - 'Thiraput01'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: 'github-actions'
     open-pull-requests-limit: 15
@@ -22,7 +25,7 @@ updates:
     labels:
       - '🤖 Dependencies'
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
     assignees:
       - 'yokeTH'
       - 'Thiraput01'
