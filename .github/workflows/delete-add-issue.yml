@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  close_issue:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.title =~ /^Automated #(\d+)$/
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract issue number from PR title
+        id: extract_number
+        run: |
+          echo "ISSUE_NUMBER=$(echo '${{ github.event.pull_request.title }}' | grep -oP '^Automated #\K\d+')" >> $GITHUB_ENV
+
+      - name: Close related issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          comment: "Closed automatically because PR '${{ github.event.pull_request.title }}' was merged."
