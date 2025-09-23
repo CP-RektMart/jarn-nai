@@ -287,4 +287,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'วิทยา วัณณสุโภประสิทธิ์',
   },
+  {
+    abbreviation: 'PRR',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'ปริญเอก ร่มไตรรัตน์',
+  },
 ];
