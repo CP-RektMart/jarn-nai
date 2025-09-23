@@ -287,4 +287,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'วิทยา วัณณสุโภประสิทธิ์',
   },
+  {
+    abbreviation: 'KMN',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'กุณฑินี มณีรัตน์',
+  },
 ];
