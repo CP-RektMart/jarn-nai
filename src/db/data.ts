@@ -347,4 +347,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'นักสิทธ์ นุ่มวงษ์',
   },
+  {
+    abbreviation: 'NNW',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'นักสิทธ์ นุ่มวงษ์',
+  },
 ];
