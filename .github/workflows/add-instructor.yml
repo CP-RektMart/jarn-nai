@@ -120,7 +120,7 @@ jobs:
             Add or Update Instructor Abbreviation from issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}
           committer: Jarn-Nai[bot] <1505243+Jarn-Nai[bot]@users.noreply.github.com>
           title: >-
-            Automated ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
+            Automated ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}
           body: |
             This PR was automatically generated in response to issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}.
 
