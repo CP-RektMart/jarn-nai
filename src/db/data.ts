@@ -353,4 +353,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'นภัสสวงศ์ โอสถศิลป์',
   },
+  {
+    abbreviation: 'SCW',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'สัณหพศ จันทรานุวัฒน์',
+  },
 ];
