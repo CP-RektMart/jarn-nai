@@ -116,7 +116,7 @@ jobs:
       - name: Update
         run: npx tsx scripts/update_instructor.ts
         env:
-          BODY: ${{ github.event_name == 'workflow_dispatch' && env.BODY || github.event.issue.body }}
+          BODY: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request')  && env.BODY || github.event.issue.body }}
 
       - name: Format
         run: npx prettier --write src/db/data.ts
