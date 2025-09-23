@@ -82,7 +82,7 @@ jobs:
         run: pnpm install
 
       - name: Get Issue Body for Workflow Dispatch
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name == 'workflow_dispatch' }} ||${{ github.event_name == 'pull_request' }}
         id: pick-issue
         run: |
           set -euo pipefail
