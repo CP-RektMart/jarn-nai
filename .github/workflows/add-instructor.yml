@@ -23,6 +23,11 @@ jobs:
             exit 0
           fi
 
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "Skipping issue title validation for pull_request closed event."
+            exit 0
+          fi
+
           TITLE="${{ github.event.issue.title }}"
           if ! echo "$TITLE" | grep -q 'Instructor Abbreviation:'; then
             echo "::error::Issue title must start with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
