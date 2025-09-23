@@ -359,4 +359,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'สัณหพศ จันทรานุวัฒน์',
   },
+  {
+    abbreviation: 'NAV',
+    department: 'Mechanical Engineer',
+    faculty: 'Engineering',
+    fullName: 'นภดนัย อาชวาคม',
+  },
 ];
