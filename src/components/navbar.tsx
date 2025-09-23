@@ -1,16 +1,16 @@
 const Navbar = () => {
   return (
-    <div className="h-10 w-full bg-primary">
-      <div className="container max-w-6xl flex h-full w-full mx-auto justify-end items-center">
+    <div className='bg-primary h-10 w-full'>
+      <div className='container mx-auto flex h-full w-full max-w-6xl items-center justify-end'>
         <a
-          href="https://github.com/CP-RektMart/jarn-nai/issues/new?template=instructor-abbreviation.yml"
-          className="text-white underline truncate hover:text-gray-300 mr-4"
+          href='https://github.com/CP-RektMart/jarn-nai/issues/new?template=instructor-abbreviation.yml'
+          className='mr-4 truncate text-white underline hover:text-gray-300'
         >
           Add Instructor
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export { Navbar };
+export { Navbar }

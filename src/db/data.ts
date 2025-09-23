@@ -353,4 +353,4 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'นภดนัย อาชวาคม',
   },
-];
+]
