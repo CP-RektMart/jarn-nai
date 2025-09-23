@@ -2,6 +2,7 @@
 
 import { memo, useDeferredValue, useMemo, useState } from 'react'
 
+import { sendGTMEvent } from '@next/third-parties/google'
 import { SearchIcon } from 'lucide-react'
 
 import { InstructorCard } from '@/components/instructor-card'
@@ -58,6 +59,8 @@ export function InstructorSearchClient({
     if (!term) {
       return { results: instructors, searched: false }
     }
+
+    sendGTMEvent({ event: 'searchBarChange', value: deferredSearchTerm })
 
     const matching = instructors.filter(
       (i) =>

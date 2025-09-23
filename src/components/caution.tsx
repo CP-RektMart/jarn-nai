@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import { sendGTMEvent } from '@next/third-parties/google'
 import { TriangleAlert } from 'lucide-react'
 import { X } from 'lucide-react'
 
@@ -52,6 +53,7 @@ export const Caution = () => {
   const handleClose = () => {
     setVisible(false)
     setCookie('cautionAlertClosed', 'true', 30)
+    sendGTMEvent({ event: 'closeCaution', value: true })
   }
 
   if (!visible) return null
