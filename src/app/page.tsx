@@ -1,94 +1,9 @@
-'use client';
-
-import { memo, useDeferredValue, useState, useEffect } from 'react';
-import { SearchIcon, TriangleAlert } from 'lucide-react';
-import { instructors } from '@/db/data';
-import { InstructorCard } from '@/components/instructor-card';
+import { TriangleAlert } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { instructors } from '@/db/data';
+import { InstructorSearchClient } from '@/components/instructor-card-list';
 
-type Instructor = (typeof instructors)[number];
-
-interface InstructorSearchResultProps {
-  searched: boolean;
-  results: Instructor[];
-}
-
-const InstructorSearchResult = memo(function InstructorSearchResult({
-  searched,
-  results,
-}: InstructorSearchResultProps) {
-  if (searched && results.length === 0) {
-    return (
-      <div className="text-center p-8 border rounded-lg bg-muted/50">
-        <h2 className="text-xl font-semibold mb-2">No instructors found</h2>
-        <p className="text-muted-foreground">
-          Try searching with a different term or category
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {results.map((instructor) => (
-        <InstructorCard
-          key={instructor.abbreviation}
-          abbreviation={instructor.abbreviation}
-          faculty={instructor.faculty}
-          thFullName={instructor.fullName}
-          department={instructor.department}
-        />
-      ))}
-    </>
-  );
-});
-
-export default function InstructorSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const deferredSearchTerm = useDeferredValue(searchTerm);
-  const [results, setResults] = useState<typeof instructors>(instructors);
-  const [searched, setSearched] = useState(false);
-
-  useEffect(() => {
-    if (!deferredSearchTerm.trim()) {
-      setResults(instructors);
-      setSearched(false);
-      return;
-    }
-
-    setSearched(true);
-    const searchValue = deferredSearchTerm.toLowerCase();
-
-    // First find all matching instructors
-    const matchingInstructors = instructors.filter((instructor) => {
-      return (
-        instructor.abbreviation.toLowerCase().includes(searchValue) ||
-        instructor.fullName.toLowerCase().includes(searchValue) ||
-        instructor.faculty.toLowerCase().includes(searchValue) ||
-        instructor.department.toLowerCase().includes(searchValue)
-      );
-    });
-
-    // Sort results to prioritize abbreviation matches
-    const sortedResults = matchingInstructors.sort((a, b) => {
-      // If a's abbreviation matches but b's doesn't, a comes first
-      const aAbbrevMatch = a.abbreviation.toLowerCase().includes(searchValue);
-      const bAbbrevMatch = b.abbreviation.toLowerCase().includes(searchValue);
-
-      if (aAbbrevMatch && !bAbbrevMatch) return -1;
-      if (!aAbbrevMatch && bAbbrevMatch) return 1;
-
-      // If both match or both don't match abbreviation, sort alphabetically by abbreviation
-      return a.abbreviation.localeCompare(b.abbreviation);
-    });
-
-    setResults(sortedResults);
-  }, [deferredSearchTerm]);
-
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-  };
-
+export default function InstructorSearchPage() {
   return (
     <main className="container mx-auto px-4 py-8 max-w-6xl">
       <Alert className="bg-[#FFF4E5] border-0 mb-4 rounded-sm">
@@ -101,32 +16,14 @@ export default function InstructorSearch() {
           https://www2.reg.chula.ac.th/.
         </AlertDescription>
       </Alert>
+
       <div className="text-left mb-4">
         <h1 className="text-3xl font-bold mb-2 text-primary">
           CU Instructor Search
         </h1>
-        {/* <p className="text-muted-foreground">Find instructor details by abbreviation, name, faculty, or department</p> */}
       </div>
 
-      <div className="border-1 border-white mb-2 rounded-[8px] has-[input:focus]:border-[#2A2D48] transition duration-100">
-        <div className="relative border-1 border-[#E0E0E0] has-[input:focus]:border-1 has-[input:focus]:border-[#2A2D48] hover:border-[#2A2D48] transition duration-100 rounded-sm box-border">
-          <input
-            placeholder="Search for instructors..."
-            className="rounded-sm py-2 pl-3.5 pr-10 border-0 w-full text-md focus:ring-0 focus:ring-offset-0 focus:outline-none"
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-          <SearchIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-        </div>
-      </div>
-      <ul className="list-disc ml-4 text-xs text-muted-foreground mb-4">
-        <li>Search by abbreviation, name, faculty or department</li>
-        <li>Search across all fields - abbreviation matches are shown first</li>
-      </ul>
-
-      <div className="space-y-4">
-        <InstructorSearchResult searched={searched} results={results} />
-      </div>
+      <InstructorSearchClient instructors={instructors} />
     </main>
   );
 }
