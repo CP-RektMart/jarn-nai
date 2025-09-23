@@ -311,4 +311,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'บุญชัย เลิศนุวัฒน์',
   },
+  {
+    abbreviation: 'NKT',
+    department: 'Industrial Engineering',
+    faculty: 'Engineering',
+    fullName: 'นันทชัย กานตานันทะ',
+  },
 ];
