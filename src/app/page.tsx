@@ -24,13 +24,14 @@ export default function InstructorSearch() {
     const searchValue = value.toLowerCase();
 
     // First find all matching instructors
-    const matchingInstructors = instructors.filter(
-      (instructor) =>
+    const matchingInstructors = instructors.filter((instructor) => {
+      return (
         instructor.abbreviation.toLowerCase().includes(searchValue) ||
         instructor.fullName.toLowerCase().includes(searchValue) ||
         instructor.faculty.toLowerCase().includes(searchValue) ||
         instructor.department.toLowerCase().includes(searchValue)
-    );
+      );
+    });
 
     // Sort results to prioritize abbreviation matches
     const sortedResults = matchingInstructors.sort((a, b) => {

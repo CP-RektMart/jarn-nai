@@ -300,12 +300,6 @@ export const instructors = [
     fullName: 'ปริญเอก ร่มไตรรัตน์',
   },
   {
-    abbreviation: 'CTT',
-    department: 'Mechanical Engineering',
-    faculty: 'Engineering',
-    fullName: 'จิตติน แตงเที่ยง',
-  },
-  {
     abbreviation: 'BLN',
     department: 'Mechanical Engineering',
     faculty: 'Engineering',
@@ -322,12 +316,6 @@ export const instructors = [
     department: 'Industrial Engineering',
     faculty: 'Engineering',
     fullName: 'อริศรา เจียมสงวนวงศ์',
-  },
-  {
-    abbreviation: 'AVN',
-    department: 'Industrial Engineering',
-    faculty: 'Engineering',
-    fullName: 'อมรศิริ วิลาสเดชานนท์',
   },
   {
     abbreviation: 'AVN',
