@@ -329,4 +329,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'อมรศิริ วิลาสเดชานนท์',
   },
+  {
+    abbreviation: 'AVN',
+    department: 'Industrial Engineering',
+    faculty: 'Engineering',
+    fullName: 'อมรศิริ วิลาสเดชานนท์',
+  },
 ];
