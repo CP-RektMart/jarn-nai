@@ -57,7 +57,7 @@ jobs:
           if [ -n "$OPEN_PR" ]; then
             echo "$OPEN_PR" | jq -c '.'
             echo "::error::Another instructor-abbreviation PR is still open. Please wait until it is merged or closed."
-            exit 0
+            exit 1
           fi
 
           echo "No conflicting open PRs found. Proceeding..."
