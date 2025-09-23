@@ -90,7 +90,7 @@ jobs:
           echo "Getting issue body for workflow_dispatch..."
 
           ISSUE_JSON=$(gh issue list --state open --json number,title,body,createdAt \
-            --jq '[.[] | select(.title | test("^(Add/Update|Add|Update) Instructor Abbreviation:"))] | sort_by(.createdAt) | reverse | first')
+            --jq '[.[] | select(.title | test("^(Add/Update|Add|Update) Instructor Abbreviation:"))] | sort_by(.createdAt) | first')
 
           if [ -z "${ISSUE_JSON}" ] || [ "${ISSUE_JSON}" = "null" ]; then
             echo "::error::No open issue found with title starting with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
@@ -131,7 +131,7 @@ jobs:
           title: >-
             Automated ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
           body: |
-            This PR was automatically generated in response to issue #${{ github.event_name == 'workflow_dispatch' && env.ISSUE_NUMBER || github.event.issue.number }}.
+            This PR was automatically generated in response to issue #${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request') && env.ISSUE_NUMBER || github.event.issue.number }}.
 
             **Summary of changes:**
             - ${{ github.event_name == 'workflow_dispatch' && env.ISSUE_TITLE || github.event.issue.title }}
