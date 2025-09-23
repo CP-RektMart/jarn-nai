@@ -293,4 +293,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'กุณฑินี มณีรัตน์',
   },
+  {
+    abbreviation: 'PRR',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    fullName: 'ปริญเอก ร่มไตรรัตน์',
+  },
 ];
