@@ -347,4 +347,10 @@ export const instructors = [
     faculty: 'Engineering',
     fullName: 'อัศวิน สาลี',
   },
+  {
+    abbreviation: 'NOS',
+    department: 'Industrial Engineering',
+    faculty: 'Engineering',
+    fullName: 'นภัสสวงศ์ โอสถศิลป์',
+  },
 ];
