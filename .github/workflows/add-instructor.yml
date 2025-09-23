@@ -3,6 +3,7 @@ on:
     types: [opened]
   pull_request:
     types: [closed]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,10 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'issues' ||
-      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/'))
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'instructor-abbreviation/')) ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - name: Validate issue title
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Skipping issue title validation for workflow_dispatch."
+            exit 0
+          fi
+
           TITLE="${{ github.event.issue.title }}"
           if ! echo "$TITLE" | grep -q 'Instructor Abbreviation:'; then
             echo "::error::Issue title must start with \"Add Instructor Abbreviation:\" or \"Update Instructor Abbreviation:\""
@@ -28,6 +35,12 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Check for any open instructor-abbreviation PRs
         run: |
@@ -45,12 +58,6 @@ jobs:
           echo "No conflicting open PRs found. Proceeding..."
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          lfs: true
-          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Setup Pnpm
         uses: pnpm/action-setup@v4
