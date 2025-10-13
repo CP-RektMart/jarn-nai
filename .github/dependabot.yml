@@ -14,10 +14,12 @@ updates:
       interval: 'daily'
     assignees:
       - 'yokeTH'
-      - 'Thiraput01'
+    allow:
+      - dependency-type: 'direct'
     ignore:
       - dependency-name: '*'
-        update-types: ['version-update:semver-major']
+        update-types: ['version-update:semver-patch', 'version-update:semver-minor', 'version-update:semver-major']
+    security-updates-only: true
 
   - package-ecosystem: 'github-actions'
     open-pull-requests-limit: 15
@@ -28,4 +30,3 @@ updates:
       interval: 'daily'
     assignees:
       - 'yokeTH'
-      - 'Thiraput01'
