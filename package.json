@@ -33,7 +33,7 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.39.1",
-    "eslint-config-next": "15.5.6",
+    "eslint-config-next": "15.5.7",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
