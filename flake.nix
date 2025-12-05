@@ -16,7 +16,7 @@
         devShells.default = with pkgs;
           mkShell {
             buildInputs = [
-              nodejs
+              nodejs_24
               pnpm
               npm-check-updates
             ];
