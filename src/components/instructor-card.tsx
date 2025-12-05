@@ -25,7 +25,7 @@ const InstructorCard = ({
     >
       <CardHeader className="px-4 pt-6 pb-0 gap-0">
         <div className="flex flex-row items-start justify-between gap-2">
-          <CardTitle className="text-xl break-words">
+          <CardTitle className="text-xl wrap-break-word">
             {thFullName ?? enFullName}
           </CardTitle>
           <Badge variant="outline" className="py-1.5 font-mono">
@@ -45,7 +45,7 @@ const InstructorCard = ({
             </div>
             <Badge
               variant="secondary"
-              className="w-fit font-normal break-words"
+              className="w-fit font-normal wrap-break-word"
             >
               {thFullName ?? enFullName}
             </Badge>
@@ -60,9 +60,9 @@ const InstructorCard = ({
               className={(() => {
                 switch (faculty.toLowerCase()) {
                   case "engineering":
-                    return "w-fit border-[#941113] font-normal break-words text-[#941113]";
+                    return "w-fit border-[#941113] font-normal wrap-break-word text-[#941113]";
                   default:
-                    return "w-fit font-normal break-words";
+                    return "w-fit font-normal wrap-break-word";
                 }
               })()}
             >
@@ -79,7 +79,7 @@ const InstructorCard = ({
               </div>
               <Badge
                 variant="secondary"
-                className="w-fit font-normal break-words"
+                className="w-fit font-normal wrap-break-word"
               >
                 {department}
               </Badge>
