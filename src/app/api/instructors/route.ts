@@ -51,6 +51,8 @@ export async function GET(req: Request) {
 
     const token = process.env.GITHUB_TOKEN;
 
+    console.log("PAT", token);
+
     const listRes = await fetch(GH_CONTENTS_URL, {
       headers: {
         Accept: "application/vnd.github.v3+json",
