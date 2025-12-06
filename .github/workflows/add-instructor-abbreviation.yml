@@ -33,11 +33,13 @@ jobs:
         id: extract
         uses: actions/github-script@v7
         with:
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const fs = require("fs");
             const path = require("path");
 
-            const { github, context, core } = require("@actions/github-script");
+            // github, context, core are provided by actions/github-script
+            // DO NOT re-declare them with require()
 
             // Determine which issue to use (opened event vs manual dispatch)
             let issueNumber;
@@ -82,10 +84,10 @@ jobs:
             }
 
             const data = {
-              abbreviation: abbreviation,
-              fullName: fullName,
-              faculty: faculty,
-              department: department,
+              abbreviation,
+              fullName,
+              faculty,
+              department,
             };
 
             const dir = path.join(process.cwd(), "src", "db");
