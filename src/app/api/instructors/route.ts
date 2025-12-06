@@ -17,6 +17,7 @@ type GithubContent = {
 };
 
 const GH_CONTENTS_URL =
+  process.env.GH_CONTENTS_URL ??
   "https://api.github.com/repos/CP-RektMart/jarn-nai/contents/src/db";
 
 export const revalidate = 3600;
@@ -162,7 +163,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("Failed to load instructors:", error);
     return NextResponse.json(
-      { error: "Failed to load instructors" },
+      { error: "Failed to load instructors", details: error },
       { status: 500 },
     );
   }
