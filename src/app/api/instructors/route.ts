@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-
-export const runtime = "edge";
+import allInstructors from "@/db/all.json";
 
 export type Instructor = {
   abbreviation: string;
@@ -8,17 +7,6 @@ export type Instructor = {
   faculty: string;
   department: string;
 };
-
-type GithubContent = {
-  name: string;
-  path: string;
-  type: "file" | "dir";
-  download_url: string | null;
-};
-
-const GH_CONTENTS_URL =
-  process.env.GH_CONTENTS_URL ??
-  "https://api.github.com/repos/CP-RektMart/jarn-nai/contents/src/db";
 
 export const revalidate = 3600;
 
@@ -49,66 +37,10 @@ export async function GET(req: Request) {
         .map((v) => v.trim())
         .filter(Boolean) ?? [];
 
-    const token = process.env.GITHUB_TOKEN;
-
-    console.log("PAT", token);
-
-    const listRes = await fetch(GH_CONTENTS_URL, {
-      headers: {
-        Accept: "application/vnd.github.v3+json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      next: { revalidate: 3600 },
-    });
-
-    if (!listRes.ok) {
-      const text = await listRes.text();
-      console.error("Failed to list GitHub folder:", text);
-      return NextResponse.json(
-        { error: "Failed to list GitHub folder" },
-        { status: 502 },
-      );
-    }
-
-    const contents = (await listRes.json()) as GithubContent[];
-
-    const jsonFiles = contents.filter(
-      (item) =>
-        item.type === "file" &&
-        item.name.endsWith(".json") &&
-        item.download_url,
-    );
-
-    const allArrays = await Promise.all(
-      jsonFiles.map(async (file) => {
-        if (!file.download_url) return;
-        const res = await fetch(file.download_url, {
-          next: { revalidate: 3600 },
-        });
-
-        if (!res.ok) {
-          console.warn(
-            "Failed to fetch file:",
-            file.download_url,
-            await res.text(),
-          );
-          return [] as Instructor[];
-        }
-
-        const data = await res.json();
-
-        if (Array.isArray(data)) {
-          return data as Instructor[];
-        }
-        return [data as Instructor];
-      }),
-    );
-
-    let instructors = allArrays.flat();
+    let instructors: Instructor[] = allInstructors as Instructor[];
 
     if (q) {
       instructors = instructors.filter((inst) => {
-        if (!inst) return false;
         const haystack = [
           inst.abbreviation,
           inst.fullName,
@@ -123,15 +55,14 @@ export async function GET(req: Request) {
     }
 
     if (facultyFilters.length > 0) {
-      instructors = instructors.filter((inst) => {
-        if (!inst) return false;
-        return facultyFilters.includes(inst.faculty);
-      });
+      instructors = instructors.filter((inst) =>
+        facultyFilters.includes(inst.faculty),
+      );
     }
 
     if (departmentFilters.length > 0) {
-      instructors = instructors.filter(
-        (inst) => inst && departmentFilters.includes(inst.department),
+      instructors = instructors.filter((inst) =>
+        departmentFilters.includes(inst.department),
       );
     }
 
@@ -147,10 +78,6 @@ export async function GET(req: Request) {
       : "fullName";
 
     instructors.sort((a, b) => {
-      if (!a && !b) return 0;
-      if (!a) return 1;
-      if (!b) return -1;
-
       const av = (a[sortBy] ?? "").toString().toLowerCase();
       const bv = (b[sortBy] ?? "").toString().toLowerCase();
 
@@ -165,7 +92,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("Failed to load instructors:", error);
     return NextResponse.json(
-      { error: "Failed to load instructors", details: error },
+      { error: "Failed to load instructors" },
       { status: 500 },
     );
   }

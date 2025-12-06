@@ -5,6 +5,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
+    "build:instructors": "node src/scripts/build-all-json.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
