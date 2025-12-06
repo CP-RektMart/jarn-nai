@@ -1,11 +1,20 @@
+import { URLSearchParams } from "node:url";
 import type { Instructor } from "@/app/api/instructors/route";
 import { Caution } from "@/components/caution";
 import { InstructorSearchClient } from "@/components/instructor-card-list";
 
 const BASE_URL = process.env.BASE_URL ?? "https://jarn-nai.pages.dev";
 
-export default async function InstructorSearchPage() {
-  const req = await fetch(`${BASE_URL}/api/instructors?limit=10000`, {
+export default async function InstructorSearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
+  const params = await searchParams;
+  if (!params.limit) params.limit = "10000";
+  const sp = new URLSearchParams(params);
+
+  const req = await fetch(`${BASE_URL}/api/instructors?${sp.toString()}`, {
     next: { revalidate: 3600 },
   });
 
