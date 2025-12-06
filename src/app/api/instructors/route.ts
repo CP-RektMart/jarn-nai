@@ -87,7 +87,7 @@ export async function GET(req: Request) {
 
     const sortBy: keyof Instructor = validSortFields.includes(sortByParam)
       ? sortByParam
-      : "fullName";
+      : "department";
 
     instructors.sort((a, b) => {
       const av = (a[sortBy] ?? "").toString().toLowerCase();
