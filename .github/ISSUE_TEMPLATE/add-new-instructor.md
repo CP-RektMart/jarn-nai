@@ -1,5 +1,5 @@
 name: "Add Instructor Abbreviation"
-description: "Automated Add Instructor"
+about: "Automated Add Instructor"
 title: "[Instructor] Add Instructor Abbreviation: <Abbreviation>"
 labels: ["🧑‍🏫 instructor"]
 assignees:
