@@ -1,4 +1,3 @@
-import { URLSearchParams } from "node:url";
 import type { Instructor } from "@/app/api/instructors/route";
 import { Caution } from "@/components/caution";
 import { InstructorSearchClient } from "@/components/instructor-card-list";
