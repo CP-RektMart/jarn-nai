@@ -9,7 +9,7 @@ export default async function InstructorSearchPage() {
     next: { revalidate: 3600 },
   });
 
-  const instructors: Instructor[] = await req.json();
+  const instructors: { items: Instructor[] } = await req.json();
 
   return (
     <main className="container mx-auto max-w-6xl px-4 py-8">
@@ -21,7 +21,7 @@ export default async function InstructorSearchPage() {
         </h1>
       </div>
 
-      <InstructorSearchClient instructors={instructors} />
+      <InstructorSearchClient instructors={instructors.items} />
     </main>
   );
 }
