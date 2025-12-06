@@ -1,32 +1,52 @@
----
 name: "Add Instructor Abbreviation"
-about: "Automated Add Instructor"
-title: "[Instructor] Add Instructor Abbreviation: [Abbreviation]"
+description: "Automated Add Instructor"
+title: "[Instructor] Add Instructor Abbreviation: <Abbreviation>"
 labels: ["🧑‍🏫 instructor"]
-assignees: ["yokeTH"]
----
+assignees:
+  - yokeTH
 
-### Abbreviation
+body:
+  - type: input
+    id: abbreviation
+    attributes:
+      label: Abbreviation
+      description: e.g. TNP
+      placeholder: TNP
+    validations:
+      required: true
 
-<!-- e.g. TNP -->
-<Abbreviation>
+  - type: input
+    id: full_name
+    attributes:
+      label: Full Name
+      description: e.g. THANAPON Johdee
+      placeholder: THANAPON Johdee
+    validations:
+      required: true
 
-### Full Name
+  - type: input
+    id: faculty
+    attributes:
+      label: Faculty
+      description: e.g. Engineering
+      placeholder: Engineering
+    validations:
+      required: true
 
-<!-- e.g. THANAPON Johdee -->
-<Full Name>
+  - type: input
+    id: department
+    attributes:
+      label: Department
+      description: e.g. Computer Engineering
+      placeholder: Computer Engineering
+    validations:
+      required: true
 
-### Faculty
-
-<!-- e.g. Engineering -->
-<Faculty>
-
-### Department
-
-<!-- e.g. Computer Engineering -->
-<Department>
-
-### Additional Notes (optional)
-
-<!-- e.g. mapped from cource 2110101, etc. -->
-<Additional Notes>
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: Additional Notes (optional)
+      description: e.g. mapped from course 2110101, etc.
+      placeholder: mapped from course 2110101, etc.
+    validations:
+      required: false
