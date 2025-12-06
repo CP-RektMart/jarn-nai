@@ -77,8 +77,8 @@ export function InstructorSearchClient({
 
   return (
     <>
-      <div className="mb-2 rounded-xl border border-white transition duration-100 has-[input:focus]:border-[#2A2D48]">
-        <div className="relative box-border rounded-sm border border-[#E0E0E0] transition duration-100 hover:border-[#2A2D48] has-[input:focus]:border has-[input:focus]:border-[#2A2D48]">
+      <div className="mb-2 rounded-xl transition duration-100">
+        <div className="relative rounded-sm outline outline-[#E0E0E0] transition duration-100 hover:outline-[#2A2D48] has-[input:focus]:outline-2 has-[input:focus]:outline-[#2A2D48]">
           <input
             placeholder="Search for instructors..."
             className="w-full rounded-sm border-0 py-2 pr-10 pl-3.5 text-md focus:outline-none focus:ring-0 focus:ring-offset-0"
