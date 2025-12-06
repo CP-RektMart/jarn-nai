@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import allInstructors from "@/db/all.json";
 
+export const runtime = "edge";
+
 export type Instructor = {
   abbreviation: string;
   fullName: string;
