@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome check --write",
+    "format": "biome check --write --unsafe",
     "prepare": "husky",
     "commitlint": "commitlint --edit"
   },

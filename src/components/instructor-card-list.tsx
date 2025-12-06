@@ -2,10 +2,8 @@
 
 import { SearchIcon } from "lucide-react";
 import { memo, useDeferredValue, useMemo, useState } from "react";
-
+import type { Instructor } from "@/app/api/instructors/route";
 import { InstructorCard } from "@/components/instructor-card";
-
-type Instructor = typeof import("@/db/data").instructors[number];
 
 interface InstructorSearchClientProps {
   instructors: Instructor[];
