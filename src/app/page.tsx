@@ -5,8 +5,8 @@ import { InstructorSearchClient } from "@/components/instructor-card-list";
 const BASE_URL = process.env.BASE_URL ?? "https://jarn-nai.pages.dev";
 
 export default async function InstructorSearchPage() {
-  const req = await fetch(`${BASE_URL}/api/instructors`, {
-    next: { revalidate: 36000 },
+  const req = await fetch(`${BASE_URL}/api/instructors?limit=10000`, {
+    next: { revalidate: 3600 },
   });
 
   const instructors: Instructor[] = await req.json();
