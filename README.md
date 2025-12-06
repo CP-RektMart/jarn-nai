@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# (a)Jarn Nai (อา)จารย์ไหน (วะ)
 
-## Getting Started
+The service was designed to address the inconvenience that is caused by instruction list data being provided in an abbreviated form, a practice of Chulalongkorn University Registeration System (or so-called Reg-Chula), and the need for a search system.
 
-First, run the development server:
+บริการนี้ถูกออกแบบมาเพื่อแก้ปัญหาความไม่สะดวกที่เกิดจากการแสดงรายชื่ออาจารย์ในรูปแบบตัวย่อ ซึ่งเป็นแนวปฏิบัติของระบบทะเบียนจุฬาลงกรณ์มหาวิทยาลัย (หรือที่เรียกกันว่า Reg-Chula) และเพื่อรองรับความต้องการระบบค้นหาอาจารย์จากข้อมูลดังกล่าว
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Our Service
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The main website availiable at https://jarn-nai.pages.dev
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- instructor at https://jarn-nai.pages.dev/api/instructors
+search params
+  - `q` search all fields
+  - `faculty` filtering support multi-facults speard by `,`
+  - `department` filtering support multi-departments speard by `,`
+  - `sortBy` -> `abbreviation`, `fullName`, `faculty`, `department`(default)
+  - `sortOrder` ->  `desc`, `asc`
+- all availiable departments at https://jarn-nai.pages.dev/api/departments
+- all availiable departments at https://jarn-nai.pages.dev/api/faculties
+- metadata at https://jarn-nai.pages.dev/api/metadata
 
-## Learn More
+# Disclaimer
+The instructor mappings are contributed manually and may contain errors. Please verify the information before use.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Contribution
+We welcome contributions! You can open a Pull Request, or easily suggest a new instructor by creating an issue [here](https://github.com/CP-RektMart/jarn-nai/issues/new?template=add-instructor-abbreviation.yml).
