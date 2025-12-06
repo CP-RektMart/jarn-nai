@@ -1,8 +1,16 @@
+import type { Instructor } from "@/app/api/instructors/route";
 import { Caution } from "@/components/caution";
 import { InstructorSearchClient } from "@/components/instructor-card-list";
-import { instructors } from "@/db/data";
 
-export default function InstructorSearchPage() {
+const BASE_URL = process.env.BASE_URL ?? "https://jarn-nai.pages.dev";
+
+export default async function InstructorSearchPage() {
+  const req = await fetch(`${BASE_URL}/api/instructors`, {
+    next: { revalidate: 36000 },
+  });
+
+  const instructors: Instructor[] = await req.json();
+
   return (
     <main className="container mx-auto max-w-6xl px-4 py-8">
       <Caution />
