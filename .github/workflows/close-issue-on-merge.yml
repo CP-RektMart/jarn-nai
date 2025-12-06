@@ -1,0 +1,61 @@
+name: Close Source Issue on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  pull-requests: read
+  issues: write
+
+jobs:
+  close-issue:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Close linked issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || "";
+
+            // Prefer the explicit "Source issue: #123" pattern
+            let match = body.match(/Source issue:\s*#(\d+)/i);
+
+            // Fallback: first plain "#123" reference if needed
+            if (!match) {
+              match = body.match(/#(\d+)/);
+            }
+
+            if (!match) {
+              core.info("No issue reference found in PR body. Skipping.");
+              return;
+            }
+
+            const issueNumber = Number(match[1]);
+            core.info(`Closing issue #${issueNumber} linked from PR #${pr.number}`);
+
+            // Close the issue
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              state: "closed",
+            });
+
+            // Optional: leave a comment on the issue
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `🔒 Closed automatically because PR #${pr.number} was merged.`,
+            });

@@ -1,0 +1,150 @@
+name: Add Instructor Abbreviation
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number to process"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  add-instructor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract fields from issue and write JSON
+        id: extract
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            // github, context, core are provided by actions/github-script
+            // DO NOT re-declare them with require()
+
+            // Determine which issue to use (opened event vs manual dispatch)
+            let issueNumber;
+            if (context.eventName === "workflow_dispatch") {
+              issueNumber = Number(context.payload.inputs.issue_number);
+            } else {
+              issueNumber = context.payload.issue.number;
+            }
+
+            // Get the issue (for workflow_dispatch we must fetch explicitly)
+            let issue;
+            if (context.eventName === "workflow_dispatch") {
+              const { data } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+              });
+              issue = data;
+            } else {
+              issue = context.payload.issue;
+            }
+
+            const body = issue.body || "";
+
+            function extractField(label) {
+              const regex = new RegExp(`### ${label}[\\r\\n]+([\\s\\S]*?)(?=\\n### |$)`);
+              const match = body.match(regex);
+              if (!match) return "";
+              const value = match[1].trim();
+              if (/^_No response_$/i.test(value)) return "";
+              return value;
+            }
+
+            const abbreviation = extractField("Abbreviation");
+            const fullName = extractField("Full Name");
+            const faculty = extractField("Faculty");
+            const department = extractField("Department");
+
+            if (!abbreviation || !fullName || !faculty || !department) {
+              core.setFailed("Missing one or more required fields (Abbreviation, Full Name, Faculty, Department).");
+              return;
+            }
+
+            const data = {
+              abbreviation,
+              fullName,
+              faculty,
+              department,
+            };
+
+            const dir = path.join(process.cwd(), "src", "db");
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+
+            const filePath = path.join(dir, `${abbreviation}.json`);
+            fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
+
+            core.setOutput("abbreviation", abbreviation);
+            core.setOutput("issue_number", issueNumber.toString());
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          commit-message: >
+            Add instructor abbreviation
+            ${{ steps.extract.outputs.abbreviation }} from
+            #${{ steps.extract.outputs.issue_number }}
+          title: >
+            [Instructor] Add Instructor Abbreviation: ${{ steps.extract.outputs.abbreviation }}
+          body: |
+            This PR adds `src/db/${{ steps.extract.outputs.abbreviation }}.json`
+            generated from issue #${{ steps.extract.outputs.issue_number }}.
+
+            - Abbreviation: `${{ steps.extract.outputs.abbreviation }}`
+            - Source issue: #${{ steps.extract.outputs.issue_number }}
+          branch: >
+            instructor/${{ steps.extract.outputs.abbreviation }}-${{ steps.extract.outputs.issue_number }}
+          delete-branch: true
+          add-paths: |
+            src/db/${{ steps.extract.outputs.abbreviation }}.json
+          labels: |
+            🧑‍🏫 instructor
+          reviewers: |
+            yokeTH
+
+      - name: Comment on issue with PR link
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { github, context } = require("@actions/github-script");
+            const prNumber = "${{ steps.create_pull_request.outputs.pull-request-number || '' }}";
+            const prUrl = "${{ steps.create_pull_request.outputs.pull-request-url || '' }}";
+            const abbreviation = "${{ steps.extract.outputs.abbreviation }}";
+
+            let body = `✅ Generated \`src/db/${abbreviation}.json\` and opened a pull request.`;
+            if (prNumber && prUrl) {
+              body += `\n\nPR: #${prNumber} (${prUrl})`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body,
+            });
