@@ -13,7 +13,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  issues: read
+  issues: write
 
 jobs:
   add-instructor:
@@ -25,11 +25,13 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Extract fields from issue and write JSON
+      - name: Extract fields from issue and write JSON (if not exists)
         id: extract
         uses: actions/github-script@v7
         with:
@@ -37,9 +39,6 @@ jobs:
           script: |
             const fs = require("fs");
             const path = require("path");
-
-            // github, context, core are provided by actions/github-script
-            // DO NOT re-declare them with require()
 
             // Determine which issue to use (opened event vs manual dispatch)
             let issueNumber;
@@ -83,6 +82,23 @@ jobs:
               return;
             }
 
+            const dir = path.join(process.cwd(), "src", "db");
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+
+            const filePath = path.join(dir, `${abbreviation}.json`);
+            const exists = fs.existsSync(filePath);
+
+            core.setOutput("abbreviation", abbreviation);
+            core.setOutput("issue_number", issueNumber.toString());
+            core.setOutput("json_exists", exists ? "true" : "false");
+
+            if (exists) {
+              core.info(`JSON already exists: ${filePath} – will not overwrite.`);
+              return; // do NOT write, do NOT fail, just skip
+            }
+
             const data = {
               abbreviation,
               fullName,
@@ -90,18 +106,12 @@ jobs:
               department,
             };
 
-            const dir = path.join(process.cwd(), "src", "db");
-            if (!fs.existsSync(dir)) {
-              fs.mkdirSync(dir, { recursive: true });
-            }
-
-            const filePath = path.join(dir, `${abbreviation}.json`);
             fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
-
-            core.setOutput("abbreviation", abbreviation);
-            core.setOutput("issue_number", issueNumber.toString());
+            core.info(`Wrote JSON to ${filePath}`);
 
       - name: Create Pull Request
+        id: create_pr
+        if: steps.extract.outputs.json_exists != 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
@@ -127,14 +137,28 @@ jobs:
           reviewers: |
             yokeTH
 
-      - name: Comment on issue with PR link
-        if: github.event_name == 'issues'
+      - name: Comment when JSON already exists
+        if: github.event_name == 'issues' && steps.extract.outputs.json_exists == 'true'
         uses: actions/github-script@v7
         with:
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
-            const { github, context } = require("@actions/github-script");
-            const prNumber = "${{ steps.create_pull_request.outputs.pull-request-number || '' }}";
-            const prUrl = "${{ steps.create_pull_request.outputs.pull-request-url || '' }}";
+            const abbreviation = "${{ steps.extract.outputs.abbreviation }}";
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: `⚠️ Instructor abbreviation \`${abbreviation}\` already exists in \`src/db/${abbreviation}.json\`. No PR was created.`,
+            });
+
+      - name: Comment on issue with PR link
+        if: github.event_name == 'issues' && steps.extract.outputs.json_exists != 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const prNumber = "${{ steps.create_pr.outputs.pull-request-number }}";
+            const prUrl = "${{ steps.create_pr.outputs.pull-request-url }}";
             const abbreviation = "${{ steps.extract.outputs.abbreviation }}";
 
             let body = `✅ Generated \`src/db/${abbreviation}.json\` and opened a pull request.`;
