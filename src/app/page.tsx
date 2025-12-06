@@ -1,7 +1,6 @@
-import { instructors } from "@/db/data";
-
 import { Caution } from "@/components/caution";
 import { InstructorSearchClient } from "@/components/instructor-card-list";
+import { instructors } from "@/db/data";
 
 export default function InstructorSearchPage() {
   return (
@@ -9,7 +8,7 @@ export default function InstructorSearchPage() {
       <Caution />
 
       <div className="mb-4 text-left">
-        <h1 className="text-primary mb-2 text-3xl font-bold">
+        <h1 className="mb-2 font-bold text-3xl text-primary">
           CU Instructor Search
         </h1>
       </div>

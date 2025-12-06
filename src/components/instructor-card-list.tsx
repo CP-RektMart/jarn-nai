@@ -1,8 +1,7 @@
 "use client";
 
-import { memo, useDeferredValue, useMemo, useState } from "react";
-
 import { SearchIcon } from "lucide-react";
+import { memo, useDeferredValue, useMemo, useState } from "react";
 
 import { InstructorCard } from "@/components/instructor-card";
 
@@ -23,8 +22,8 @@ export const InstructorSearchResult = memo(function InstructorSearchResult({
 }: InstructorSearchResultProps) {
   if (searched && results.length === 0) {
     return (
-      <div className="bg-muted/50 rounded-lg border p-8 text-center">
-        <h2 className="mb-2 text-xl font-semibold">No instructors found</h2>
+      <div className="rounded-lg border bg-muted/50 p-8 text-center">
+        <h2 className="mb-2 font-semibold text-xl">No instructors found</h2>
         <p className="text-muted-foreground">
           Try searching with a different term or category
         </p>
@@ -84,15 +83,15 @@ export function InstructorSearchClient({
         <div className="relative box-border rounded-sm border border-[#E0E0E0] transition duration-100 hover:border-[#2A2D48] has-[input:focus]:border has-[input:focus]:border-[#2A2D48]">
           <input
             placeholder="Search for instructors..."
-            className="text-md w-full rounded-sm border-0 py-2 pr-10 pl-3.5 focus:ring-0 focus:ring-offset-0 focus:outline-none"
+            className="w-full rounded-sm border-0 py-2 pr-10 pl-3.5 text-md focus:outline-none focus:ring-0 focus:ring-offset-0"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <SearchIcon className="text-muted-foreground absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2" />
+          <SearchIcon className="-translate-y-1/2 absolute top-1/2 right-3 h-5 w-5 text-muted-foreground" />
         </div>
       </div>
 
-      <ul className="text-muted-foreground mb-4 ml-4 list-disc text-xs">
+      <ul className="mb-4 ml-4 list-disc text-muted-foreground text-xs">
         <li>Search by abbreviation, name, faculty or department</li>
         <li>Search across all fields - abbreviation matches are shown first</li>
       </ul>

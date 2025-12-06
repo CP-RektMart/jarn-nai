@@ -1,9 +1,7 @@
 "use client";
 
+import { TriangleAlert, X } from "lucide-react";
 import { useEffect, useState } from "react";
-
-import { TriangleAlert } from "lucide-react";
-import { X } from "lucide-react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -74,7 +72,7 @@ export const Caution = () => {
         </AlertDescription>
       </Alert>
       <CloseAlert
-        className="text-muted-foreground absolute top-4 right-6 h-5 w-5"
+        className="absolute top-4 right-6 h-5 w-5 text-muted-foreground"
         onClickAction={handleClose}
       />
     </div>
