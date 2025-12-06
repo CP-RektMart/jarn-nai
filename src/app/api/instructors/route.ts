@@ -39,6 +39,16 @@ export async function GET(req: Request) {
         .map((v) => v.trim())
         .filter(Boolean) ?? [];
 
+    const pageRaw = searchParams.get("page") ?? "1";
+    const limitRaw = searchParams.get("limit") ?? "20";
+
+    let page = Number.parseInt(pageRaw, 10);
+    let limit = Number.parseInt(limitRaw, 10);
+
+    if (!Number.isFinite(page) || page < 1) page = 1;
+    if (!Number.isFinite(limit) || limit < 1) limit = 20;
+    if (limit > 100) limit = 100;
+
     let instructors: Instructor[] = allInstructors as Instructor[];
 
     if (q) {
@@ -90,7 +100,24 @@ export async function GET(req: Request) {
       return av < bv ? -1 : 1;
     });
 
-    return NextResponse.json(instructors, { status: 200 });
+    const total = instructors.length;
+    const last = Math.max(1, Math.ceil(total / limit));
+    if (page > last) page = last;
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    const items = instructors.slice(start, end);
+
+    return NextResponse.json(
+      {
+        items,
+        page,
+        limit,
+        total,
+        last,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error("Failed to load instructors:", error);
     return NextResponse.json(
