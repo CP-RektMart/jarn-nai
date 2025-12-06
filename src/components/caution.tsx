@@ -5,22 +5,26 @@ import { useEffect, useState } from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-function setCookie(name: string, value: string, days: number) {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie =
-    name +
-    "=" +
-    encodeURIComponent(value) +
-    "; expires=" +
-    expires +
-    "; path=/";
+async function setCookie(name: string, value: string, days: number) {
+  if (!("cookieStore" in window)) return;
+
+  const expires = Date.now() + days * 864e5;
+
+  // biome-ignore lint/suspicious/noExplicitAny: window is any
+  await (window as any).cookieStore.set({
+    name,
+    value,
+    expires,
+    path: "/",
+  });
 }
 
-function getCookie(name: string) {
-  return document.cookie.split("; ").reduce((r, v) => {
-    const parts = v.split("=");
-    return parts[0] === name ? decodeURIComponent(parts[1]) : r;
-  }, "");
+async function getCookie(name: string): Promise<string> {
+  if (!("cookieStore" in window)) return "";
+
+  // biome-ignore lint/suspicious/noExplicitAny: window is any
+  const cookie = await (window as any).cookieStore.get(name);
+  return cookie?.value ?? "";
 }
 
 export const CloseAlert = ({
@@ -46,15 +50,25 @@ export const Caution = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const closed = getCookie("cautionAlertClosed");
-    if (closed !== "true") {
-      setVisible(true);
-    }
+    let cancelled = false;
+
+    const checkCookie = async () => {
+      const closed = await getCookie("cautionAlertClosed");
+      if (!cancelled && closed !== "true") {
+        setVisible(true);
+      }
+    };
+
+    checkCookie();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setVisible(false);
-    setCookie("cautionAlertClosed", "true", 30);
+    await setCookie("cautionAlertClosed", "true", 30);
   };
 
   if (!visible) return null;
