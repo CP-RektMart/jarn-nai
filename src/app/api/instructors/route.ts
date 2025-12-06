@@ -23,7 +23,7 @@ export async function GET(req: Request) {
     const departmentParam = searchParams.get("department");
 
     const sortByParam = (searchParams.get("sortBy") ??
-      "fullName") as keyof Instructor;
+      "department") as keyof Instructor;
     const sortOrderParam =
       searchParams.get("sortOrder") === "desc" ? "desc" : "asc";
 
