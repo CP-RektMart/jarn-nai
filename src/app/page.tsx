@@ -2,7 +2,7 @@ import type { Instructor } from "@/app/api/instructors/route";
 import { Caution } from "@/components/caution";
 import { InstructorSearchClient } from "@/components/instructor-card-list";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 const BASE_URL = process.env.BASE_URL ?? "https://jarn-nai.pages.dev";
 

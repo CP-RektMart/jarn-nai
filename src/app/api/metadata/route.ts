@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import allInstructors from "@/db/all.json";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 export async function GET(_req: Request) {
   try {
