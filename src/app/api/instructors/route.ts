@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import allInstructors from "@/db/all.json";
 
-// export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export type Instructor = {
   abbreviation: string;

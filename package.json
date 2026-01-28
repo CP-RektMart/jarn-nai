@@ -2,9 +2,9 @@
   "name": "jarn-nai",
   "version": "0.1.0",
   "private": true,
+  "main": ".open-next/worker.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "predev": "node src/scripts/build-all-json.mjs",
     "dev": "next dev",
     "prebuild": "node src/scripts/build-all-json.mjs",
     "build": "next build",
