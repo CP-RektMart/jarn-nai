@@ -85,7 +85,7 @@ export function InstructorSearchClient({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <SearchIcon className="-translate-y-1/2 absolute top-1/2 right-3 h-5 w-5 text-muted-foreground" />
+          <SearchIcon className="absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
         </div>
       </div>
 

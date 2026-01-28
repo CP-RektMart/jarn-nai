@@ -43,3 +43,6 @@ next-env.d.ts
 .direnv
 
 src/db/all.json
+
+.open-next
+.wrangler
