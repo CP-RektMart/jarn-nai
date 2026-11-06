@@ -26,7 +26,7 @@ export default async function InstructorSearchPage({
       <Caution />
 
       <div className="mb-4 text-left">
-        <h1 className="mb-2 font-bold text-3xl text-primary">
+        <h1 className="text-primary mb-2 text-3xl font-bold">
           CU Instructor Search
         </h1>
       </div>
