@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.6/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": ["**", "!node_modules", "!public", "!.next", "!dist", "!build"]
   },
   "formatter": {
     "enabled": true,
@@ -17,16 +17,12 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "suspicious": {
         "noUnknownAtRules": "off"
       },
       "nursery": {
-        "useSortedClasses": {
-          "options": {
-            "attributes": ["classList"],
-            "functions": ["clsx", "cva", "tw", "tw.*"]
-          },
+        "useTailwindSortedClasses": {
           "level": "error"
         }
       }
@@ -50,5 +46,10 @@
     "formatter": {
       "enabled": true
     }
+  },
+  "tailwind": {
+    "attributes": ["class", "className", "classList"],
+    "mergeFunctions": ["clsx", "tw"],
+    "variantFunctions": ["cva"]
   }
 }

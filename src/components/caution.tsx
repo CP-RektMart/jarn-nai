@@ -86,7 +86,7 @@ export const Caution = () => {
         </AlertDescription>
       </Alert>
       <CloseAlert
-        className="absolute top-4 right-6 h-5 w-5 text-muted-foreground"
+        className="text-muted-foreground absolute top-4 right-6 h-5 w-5"
         onClickAction={handleClose}
       />
     </div>

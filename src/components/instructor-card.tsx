@@ -25,7 +25,7 @@ const InstructorCard = ({
     >
       <CardHeader className="gap-0 px-4 pt-6 pb-0">
         <div className="flex flex-row items-start justify-between gap-2">
-          <CardTitle className="wrap-break-word text-xl">
+          <CardTitle className="text-xl wrap-break-word">
             {thFullName ?? enFullName}
           </CardTitle>
           <Badge variant="outline" className="py-1.5 font-mono">
@@ -38,22 +38,22 @@ const InstructorCard = ({
         <div className="flex flex-wrap gap-4">
           <div className="flex flex-col items-start gap-2">
             <div className="flex items-start gap-2">
-              <IdCard className="mt-1 h-4 w-4 text-muted-foreground" />
-              <span className="whitespace-nowrap font-normal">
+              <IdCard className="text-muted-foreground mt-1 h-4 w-4" />
+              <span className="font-normal whitespace-nowrap">
                 {thFullName ? "Thai Full Name" : "English Full Name"}
               </span>
             </div>
             <Badge
               variant="secondary"
-              className="wrap-break-word w-fit font-normal"
+              className="w-fit font-normal wrap-break-word"
             >
               {thFullName ?? enFullName}
             </Badge>
           </div>
           <div className="flex flex-col items-start gap-2">
             <div className="flex items-start gap-2">
-              <BuildingIcon className="mt-1 h-4 w-4 text-muted-foreground" />
-              <span className="whitespace-nowrap font-normal">Faculty</span>
+              <BuildingIcon className="text-muted-foreground mt-1 h-4 w-4" />
+              <span className="font-normal whitespace-nowrap">Faculty</span>
             </div>
             <Badge
               variant="outline"
@@ -72,14 +72,14 @@ const InstructorCard = ({
           {department && (
             <div className="flex flex-col items-start gap-2">
               <div className="flex items-start gap-2">
-                <BookIcon className="mt-1 h-4 w-4 text-muted-foreground" />
-                <span className="whitespace-nowrap font-normal">
+                <BookIcon className="text-muted-foreground mt-1 h-4 w-4" />
+                <span className="font-normal whitespace-nowrap">
                   Department
                 </span>
               </div>
               <Badge
                 variant="secondary"
-                className="wrap-break-word w-fit font-normal"
+                className="w-fit font-normal wrap-break-word"
               >
                 {department}
               </Badge>

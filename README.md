@@ -11,18 +11,20 @@ The main website availiable at https://jarn-nai.pages.dev
 ## API
 
 - instructor at https://jarn-nai.pages.dev/api/instructors
-search params
+  search params
   - `q` search all fields
   - `faculty` filtering support multi-facults speard by `,`
   - `department` filtering support multi-departments speard by `,`
   - `sortBy` -> `abbreviation`, `fullName`, `faculty`, `department`(default)
-  - `sortOrder` ->  `desc`, `asc`
+  - `sortOrder` -> `desc`, `asc`
 - all availiable departments at https://jarn-nai.pages.dev/api/departments
 - all availiable departments at https://jarn-nai.pages.dev/api/faculties
 - metadata at https://jarn-nai.pages.dev/api/metadata
 
 # Disclaimer
+
 The instructor mappings are contributed manually and may contain errors. Please verify the information before use.
 
 # Contribution
+
 We welcome contributions! You can open a Pull Request, or easily suggest a new instructor by creating an issue [here](https://github.com/CP-RektMart/jarn-nai/issues/new?template=add-instructor-abbreviation.yml).

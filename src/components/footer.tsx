@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="mt-auto flex h-40 w-full flex-col bg-primary">
+    <div className="bg-primary mt-auto flex h-40 w-full flex-col">
       <div className="container mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <div className="flex flex-col gap-4 p-4 text-sm text-white">
           <span className="text-center text-xl sm:text-2xl">(อา)จารย์ ไหน</span>
